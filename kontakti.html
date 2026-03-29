@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kontakti</title>
+
+  <!-- AOS animācijas -->
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/global_style.css" />
+  <!-- Leaflet.js Kartei -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <!-- Ambient video backdrop (Ambienta video aizmugure) -->
+  <video autoplay muted loop playsinline class="video-background">
+    <source src="images/Background.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <div id="header"></div>
+
+  <main class="main-wrapper contact-container" role="main" aria-label="Kontaktu sadaļa">
+    <h1 data-i18n="contact.title">Sazinies ar mani</h1>
+
+    <section class="contact-grid" data-aos="fade-up" aria-label="Kontaktinformācija">
+      <article class="contact-card" tabindex="0" aria-labelledby="email-title">
+        <i class="fas fa-envelope contact-icon" aria-hidden="true"></i>
+        <div class="contact-info">
+          <h3 id="email-title" data-i18n="contact.email">E-pasts</h3>
+          <a href="mailto:davisstrazds@gmail.com" aria-describedby="email-desc">davisstrazds@gmail.com</a>
+        </div>
+      </article>
+
+      <article class="contact-card" tabindex="0" aria-labelledby="location-title">
+        <i class="fas fa-map-marker-alt contact-icon" aria-hidden="true"></i>
+        <div class="contact-info">
+          <h3 id="location-title" data-i18n="contact.location">Darbības zona</h3>
+          <p aria-describedby="location-desc" data-i18n="contact.location_val">Latvija / Attālināti</p>
+        </div>
+      </article>
+    </section>
+
+    <div class="badge-container" data-aos="fade-up">
+      <a href="https://www.linkedin.com/in/dāvis-strazds-b49ab625/" target="_blank" class="id-badge">
+        <i class="fab fa-linkedin" style="color: #0077b5;"></i> VERIFIED PROFESSIONAL ID
+      </a>
+    </div>
+
+    <div id="map" data-aos="zoom-in"></div>
+
+    <div class="contact-form-wrapper" data-aos="fade-up">
+      <section class="contact-form" aria-label="Saziņas forma">
+        <h2 data-i18n="contact.form_title">Sazināties</h2>
+        <form onsubmit="handleFeedbackSubmit(event)" novalidate>
+          <div class="form-group">
+            <label for="name" data-i18n="contact.name_label">Vārds</label>
+            <input type="text" id="name" name="name" required aria-required="true" placeholder="Ievadi savu vārdu" data-i18n="contact.placeholder_name" autocomplete="name" />
+          </div>
+
+          <div class="form-group">
+            <label for="email" data-i18n="contact.email_label">E-pasts</label>
+            <input type="email" id="email" name="email" required aria-required="true" placeholder="Ievadi savu e-pastu" data-i18n="contact.placeholder_email" autocomplete="email" />
+          </div>
+
+          <div class="form-group">
+            <label for="message" data-i18n="contact.message_label">Ziņojums</label>
+            <textarea id="message" name="message" required aria-required="true" placeholder="Raksti ziņojumu šeit..." data-i18n="contact.placeholder_msg"></textarea>
+          </div>
+
+          <div class="form-group-checkbox" style="margin-bottom: 2rem; display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="gdpr" name="gdpr" required style="width: auto; cursor: pointer;">
+            <label for="gdpr" style="font-size: 0.85rem; color: var(--text-muted); text-transform: none; letter-spacing: normal;" data-i18n="contact.gdpr_notice">Es piekrītu savu datu apstrādei saziņas nolūkos.</label>
+          </div>
+
+          <button type="submit" class="submit-btn" aria-label="Nosūtīt ziņojumu" data-i18n="contact.send">Nosūtīt ziņojumu</button>
+          <div class="success-message" id="success-message" data-i18n="contact.success">
+            <i class="fas fa-check-circle"></i> Ziņa veiksmīgi nosūtīta!
+          </div>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/main.js" defer></script>
+  <script>
+    // Initialize Leaflet.js Dark Map (Inicializēt Leaflet.js tumšo karti)
+    const map = L.map('map', { scrollWheelZoom: false }).setView([56.8796, 24.6032], 7);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([56.9496, 24.1052]).addTo(map).bindPopup('Dāvis Strazds | Latvija / Attālināti');
+  </script>
+</body>
+</html>

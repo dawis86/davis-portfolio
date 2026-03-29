@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Excel Risinājumi: No Datiem līdz Automatizācijai</title>
+  <meta name="description" content="Excel kā platforma datu integrācijai, automatizācijai un biznesa procesu optimizācijai. Piedāvāju gan tehniskus risinājumus, gan apmācības." />
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="stylesheet" href="css/global_style.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* Core Page Layout and Typography (Lapas pamata izkārtojums un tipogrāfija) */
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #050505;
+      color: #ffffff;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background Layering (Ambienta fona slāņošana) */
+    .video-background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; opacity: 0.6; }
+    .video-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(0,0,0,0.3) 0%, #000000 95%); z-index: -1; }
+
+    /* Hero Section with Integrated Video Visuals (Hero sadaļa ar integrētām video vizualizācijām) */
+    .hero-video {
+      position: relative;
+      height: 60vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      overflow: hidden;
+    }
+
+    .hero-video video {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -2;
+      object-fit: cover;
+    }
+
+    .hero-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4); z-index: -1; }
+
+    .hero-content h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    }
+
+    .hero-content p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 1rem auto 0;
+      opacity: 0.9;
+    }
+
+    /* Content Container Framework (Satura konteinera ietvars) */
+    .page-content {
+      max-width: 1100px;
+      margin: -60px auto 0;
+      padding: 2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 1rem;
+      color: var(--accent-gold, #d4af37);
+      font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #6c757d;
+      max-width: 800px;
+      margin: 0 auto 3rem auto;
+    }
+
+    /* Methodological Philosophy Grid (Metodoloģiskās filozofijas tīkls) */
+    .approach-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2.5rem;
+      margin-bottom: 4rem;
+    }
+
+    .approach-card {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 2rem;
+      border-radius: 12px;
+      border-left: 3px solid var(--accent-gold, #d4af37);
+    }
+
+    .approach-card .icon {
+      font-size: 2.5rem;
+      color: var(--accent-gold, #d4af37);
+      margin-bottom: 1rem;
+    }
+
+    .approach-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .approach-card p {
+      font-size: 0.95rem;
+      color: #495057;
+    }
+
+    /* Core Service Offerings Inventory (Galveno pakalpojumu piedāvājumu saraksts) */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .service-card {
+      text-align: center;
+      padding: 2rem 1.5rem;
+      border: 1px solid #dee2e6;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      border-color: #198754;
+    }
+
+    .service-card .icon {
+      font-size: 2.5rem;
+      color: #198754;
+      margin-bottom: 1rem;
+    }
+
+    .service-card h4 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .service-card p {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+
+    /* Engagement and Conversion Footer (Iesaistes un konversijas kājene) */
+    .cta-section {
+      margin-top: 4rem;
+      text-align: center;
+      background: linear-gradient(135deg, #198754, #104c2b);
+      color: white;
+      padding: 3rem 2rem;
+      border-radius: 12px;
+    }
+
+    .cta-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-btn {
+      background-color: white;
+      color: #198754;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.3s ease;
+      display: inline-block;
+      margin-top: 1rem;
+    }
+
+    .cta-btn:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .hero-content h1 { font-size: 2.5rem; }
+      .approach-grid { grid-template-columns: 1fr; }
+      .page-content { margin-top: -30px; padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Component: Header Navigation Fragment (Komponente: Navigācijas galvenes fragments) -->
+<div id="header"></div>
+
+<main>
+  <!-- Visual Backdrop: High-Impact Video Hero (Vizuālais fons: Augstas ietekmes video hero elements) -->
+  <section class="hero-video">
+    <div class="hero-overlay"></div>
+    <video autoplay muted loop playsinline>
+      <source src="images/Background.mp4" type="video/mp4">
+      Your browser does not support the video tag (Jūsu pārlūks neatbalsta video).
+    </video>
+    <div class="hero-content" data-aos="fade-up">
+      <h1 data-i18n="excel.hero_title">Excel kā Izstrādes Platforma</h1>
+      <p data-i18n="excel.hero_desc">No datu tabulām līdz automatizētām sistēmām un biznesa risinājumiem.</p>
+    </div>
+  </section>
+
+  <!-- Layout: Modular Content Area (Izkārtojums: Modulārā satura zona) -->
+  <div class="page-content">
+    <section id="philosophy"> <!-- Development Philosophy (Izstrādes filozofija) -->
+      <h2 class="section-title" data-aos="fade-up" data-i18n="excel.approach_title">Mana Pieeja Excel</h2>
+      <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100" data-i18n="excel.approach_desc">
+        Es redzu Excel ne tikai kā programmu aprēķiniem, bet kā elastīgu platformu. Tā var kalpot gan kā ātrs prototipēšanas rīks sarežģītām sistēmām, gan kā jaudīgs instruments ikdienas darba efektivitātei.
+      </p>
+
+      <div class="approach-grid"> <!-- Approach Cards (Pieejas kartītes) -->
+        <div class="approach-card" data-aos="fade-right">
+          <div class="icon"><i class="fas fa-cogs"></i></div>
+          <h3 data-i18n="excel.tech_title">Tehniskie Risinājumi</h3>
+          <p data-i18n="excel.tech_desc">
+            Izmantoju Excel kā datu ievades un strukturēšanas vidi. Ar koda (piemēram, Java) palīdzību es migrēju šos datus no definētiem apgabaliem (ranges) uz web veidlapām, datu bāzēm vai citām sistēmām. Tas ļauj klientiem ērti sagatavot datus pazīstamā vidē, kamēr es nodrošinu to automātisku integrāciju.
+          </p>
+        </div>
+        <div class="approach-card" data-aos="fade-left">
+          <div class="icon"><i class="fas fa-chalkboard-teacher"></i></div>
+          <h3 data-i18n="excel.edu_title">Apmācības un Efektivitāte</h3>
+          <p data-i18n="excel.edu_desc">
+            Pat bez programmēšanas, Excel ir neticami spēcīgs. Es palīdzu indivīdiem un komandām atklāt tā patieso potenciālu – no sarežģītām formulām un Pivot tabulām līdz Power Query un datu vizualizācijai. Mans mērķis ir iemācīt strādāt gudrāk, nevis grūtāk.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="services"> <!-- Service Offerings (Pakalpojumu piedāvājums) -->
+      <h2 class="section-title" data-aos="fade-up" data-i18n="excel.services">Pakalpojumi</h2>
+      <div class="services-grid">
+        <div class="service-card" data-aos="fade-up">
+          <div class="icon"><i class="fas fa-database"></i></div>
+          <h4 data-i18n="excel.service_1">Datu Integrācija</h4>
+          <p data-i18n="excel.service_1_desc">Jūsu Excel datu pārnešana uz citām sistēmām (CRM, web, u.c.).</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="icon"><i class="fas fa-file-invoice"></i></div>
+          <h4 data-i18n="excel.service_2">Automatizētas Veidlapas</h4>
+          <p data-i18n="excel.service_2_desc">Excel failu pārvēršana par interaktīvām, integrētām veidlapām.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="icon"><i class="fas fa-chart-line"></i></div>
+          <h4 data-i18n="excel.service_3">Procesu Optimizācija</h4>
+          <p data-i18n="excel.service_3_desc">Manuālu, laikietilpīgu uzdevumu automatizēšana jūsu Excel failos.</p>
+        </div>
+        <div class="service-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="icon"><i class="fas fa-graduation-cap"></i></div>
+          <h4 data-i18n="excel.service_4">Individuālās Apmācības</h4>
+          <p data-i18n="excel.service_4_desc">Pielāgotas konsultācijas un apmācības jūsu prasmju līmenim.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-section" data-aos="zoom-in-up"> <!-- Conversion Section (Konversijas sadaļa) -->
+      <h2 data-i18n="excel.cta_title">Vai Tavs Excel strādā Tavā labā?</h2>
+      <p data-i18n="excel.cta_desc">Apspriedīsim, kā mēs varam optimizēt Tavu darbu vai integrēt Excel Tavā nākamajā projektā.</p>
+      <a href="kontakti.html" class="cta-btn" data-i18n="excel.cta_btn">Sazināties ar mani</a>
+    </section>
+  </div>
+</main>
+
+<!-- Component: Footer Fragment (Komponente: Kājenes fragments) -->
+<div id="footer"></div>
+
+<!-- Scripts: Logic and Initialization (Skripti: Loģika un inicializācija) -->
+<script src="js/translations.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="js/main.js" defer></script>
+
+</body>
+</html>

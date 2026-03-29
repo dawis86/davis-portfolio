@@ -1,0 +1,492 @@
+/* Typography Architecture: Loading high-end Google fonts (Tipogrāfijas arhitektūra: Augstas klases Google fontu ielāde) */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
+
+:root {
+    --primary-color: #050505;
+    --accent-gold: #d4af37;
+    --accent-blue: #00c6ff;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --text-color: #ffffff;
+    --text-muted: #a0a0a0;
+    --shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --shadow-hover: 0 8px 24px rgba(212, 175, 55, 0.3);
+    --transition-speed: 0.3s;
+}
+
+/* Viewport Logic: Smooth scrolling for premium UX (Skata loģika: Gluda ritināšana augstas klases lietotāja pieredzei) */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Offset for fixed navigation (Atstarpe fiksētajai navigācijai) */
+}
+
+/* Scrollbar Interface: Custom gold-accented thumb (Ritjoslas saskarne: Pielāgota zelta akcenta josla) */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: #050505;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--accent-gold);
+    border-radius: 10px;
+}
+
+/* Text selection highlight color (Teksta iezīmēšanas izcelšanas krāsa) */
+::selection {
+    background: var(--accent-gold);
+    color: #000;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0; padding: 0; /* Reset box model (Atiestatīt kastes modeli) */
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    padding-top: 80px;
+    font-size: clamp(14px, 0.9vw + 10px, 20px); /* Dynamic typography scaling (Dinamiskā tipogrāfijas mērogošana) */
+    min-height: 100vh;
+}
+
+/* ================= HEADER ================= */
+.navbar {
+    background: rgba(5, 5, 5, 0.7);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    padding: 20px 0;
+    transition: all 0.4s ease;
+    border-bottom: 1px solid var(--glass-border);
+}
+
+.navbar.scrolled {
+    padding: 10px 0;
+    background: rgba(5, 5, 5, 0.9);
+}
+
+.navbar-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.navbar-logo {
+    display: flex;
+    align-items: center;
+    font-size: 22px;
+    color: var(--accent-gold);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-decoration: none;
+    gap: 12px;
+    letter-spacing: 1.2px;
+    user-select: none;
+    transition: color var(--transition-speed) ease;
+}
+
+.navbar-logo:hover {
+    color: #fff;
+}
+
+.logo-img {
+    height: 42px;
+    width: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    transition: transform var(--transition-speed) ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.1);
+}
+
+.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.navbar-menu li {
+    position: relative;
+}
+
+.navbar-menu li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 0;
+    transition: color var(--transition-speed) ease;
+    position: relative;
+    font-weight: 500;
+    user-select: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.navbar-menu li a::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background: var(--accent-gold);
+    box-shadow: 0 0 10px var(--accent-gold);
+    transition: width var(--transition-speed) ease;
+}
+
+.navbar-menu li a:hover {
+    color: var(--accent-gold);
+}
+
+.navbar-menu li a:hover::after {
+    width: 100%;
+}
+
+/* Mobile navigation toggle icon (Mobilās navigācijas pārslēgšanas ikona) */
+.navbar-toggle {
+    display: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* ================= ADAPTIVE LAYOUTS (ADAPTĪVIE IZKĀRTOJUMI) ================= */
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: block;
+    }
+
+    .navbar-container {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .navbar-menu {
+        display: none;
+        flex-direction: column;
+        gap: 15px;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(5, 5, 5, 0.98);
+        padding: 20px;
+        border-top: 1px solid var(--glass-border);
+        backdrop-filter: blur(15px);
+    }
+
+    .navbar-menu.active {
+        display: flex;
+    }
+
+    .navbar-menu li {
+        width: 100%;
+    }
+}
+
+/* Large Scale Media: Optimization for 4K TVs and Projectors (Lielformāta mediji: Optimizācija 4K TV un projektoriem) */
+@media (min-width: 2500px) {
+    :root {
+        font-size: 28px; /* High-fidelity scale for immersive screens (Augstas precizitātes mērogs imersīviem ekrāniem) */
+    }
+    .navbar-container, .contact-container, .projects-container, .page-content, .container {
+        max-width: 2600px; /* Expand layout for ultra-wide displays (Paplašināt izkārtojumu ultra-platiem displejiem) */
+    }
+}
+
+/* ================= ACCESSIBILITY ================= */
+.navbar-menu li a:focus-visible {
+    outline: 2px solid var(--secondary-color);
+    outline-offset: 2px;
+}
+
+/* ================= UTILS ================= */
+.hidden {
+    display: none !important;
+}
+
+/* ================= VIDEO BACKGROUND ================= */
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: brightness(0.55) contrast(1.1);
+}
+
+.video-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0,0,0,0.2) 0%, #000000 98%);
+    z-index: -1;
+    pointer-events: none;
+    animation: ambientPulse 10s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+    0%, 100% { opacity: 0.85; }
+    50% { opacity: 1; }
+}
+
+.contact-container h1, .section-title, .hero-title {
+    text-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
+}
+
+.main-wrapper {
+    position: relative;
+    z-index: 1;
+    padding-bottom: 5rem;
+}
+
+/* ================= CONTACT PAGE ================= */
+.contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8rem 20px 5rem;
+}
+
+.contact-container h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    text-align: center;
+    margin-bottom: 4rem;
+    background: linear-gradient(to right, #fff, var(--accent-gold));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1.5px;
+    font-weight: 700;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+}
+
+.contact-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.contact-card:hover {
+    transform: translateY(-12px);
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2), 0 0 20px rgba(212, 175, 55, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.contact-icon {
+    font-size: 3rem;
+    color: var(--accent-gold);
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+}
+
+.contact-info h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    margin: 0 0 8px 0;
+    font-size: 1.3rem;
+    color: #fff;
+}
+
+.contact-info p, .contact-info a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 1.05rem;
+    transition: color 0.3s ease;
+}
+
+.contact-info a:hover {
+    color: var(--accent-gold);
+}
+
+.badge-container {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin-bottom: 5rem;
+    flex-wrap: wrap;
+}
+
+.id-badge {
+    background: rgba(15, 15, 15, 0.7);
+    border: 1px solid var(--glass-border);
+    padding: 1.2rem 2.5rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #fff;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(20px);
+}
+
+.id-badge:hover {
+    border-color: var(--accent-gold);
+    transform: translateY(-8px);
+    background: rgba(212, 175, 55, 0.1);
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.15);
+}
+
+.contact-form-wrapper {
+    max-width: 850px;
+    margin: 0 auto;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    padding: 5rem 4rem;
+    border-radius: 40px;
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+.contact-form h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent-gold);
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.form-group label {
+    font-size: 0.8rem;
+    color: var(--accent-gold);
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.form-group:focus-within label {
+    color: var(--accent-blue);
+    transform: translateX(5px);
+    text-shadow: 0 0 10px rgba(0, 198, 255, 0.4);
+}
+
+.form-group input, .form-group textarea {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    padding: 20px;
+    border-radius: 16px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 15px 35px rgba(0, 198, 255, 0.15), 0 0 0 4px rgba(0, 198, 255, 0.05);
+    background: rgba(255, 255, 255, 0.02);
+    transform: translateY(-4px);
+}
+
+/* Shake Animation for Errors (Krratīšanās animācija kļūdām) */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    75% { transform: translateX(8px); }
+}
+
+.input-error {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+    border-color: #ff416c !important;
+    box-shadow: 0 0 15px rgba(255, 65, 108, 0.3) !important;
+}
+
+.success-message {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    color: #00ff88;
+    font-weight: 700;
+    text-align: center;
+    padding: 0 1rem;
+    border-radius: 12px;
+    background: rgba(0, 255, 136, 0.05);
+    border: 1px solid rgba(0, 255, 136, 0.2);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.success-message.visible {
+    opacity: 1;
+    max-height: 100px;
+    padding: 1rem;
+}
+
+#map {
+    height: 450px;
+    width: 100%;
+    border-radius: 30px;
+    margin-bottom: 5rem;
+    border: 1px solid var(--glass-border);
+    filter: grayscale(1) invert(1) brightness(0.7) contrast(1.2);
+    overflow: hidden;
+}
+
+/* Testimonials Avatar Style */
+.author-avatar {
+    width: 45px;
+    height: 45px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    font-size: 14px;
+}

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dāvis Strazds | No sociālā darba uz IT. Portfolio ar pirmajiem projektiem un uzdevumu ģeneratoru." />
+  <meta property="og:title" content="Dāvis Strazds Portfolio" />
+  <meta property="og:description" content="Sociālais darbinieks ar vairāk nekā 13 gadu pieredzi, kurš apgūst programmēšanu" />
+  <meta property="og:image" content="images/logo.png" />
+  <title>Programmēšana | Dāvis Strazds</title>
+
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="stylesheet" href="css/global_style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css">
+  
+<style>
+    .ai-lab-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 20px;
+        padding: 2rem;
+        backdrop-filter: blur(10px);
+        margin-bottom: 2rem;
+    }
+    .terminal-window {
+        background: #000;
+        border-radius: 8px;
+        padding: 1rem;
+        font-family: 'Courier New', Courier, monospace;
+        color: #00ff88;
+        min-height: 100px;
+        border: 1px solid #333;
+        margin-top: 1rem;
+        position: relative;
+    }
+    .terminal-window::before {
+        content: '● ● ●';
+        position: absolute;
+        top: 5px;
+        left: 10px;
+        color: #555;
+        font-size: 10px;
+    }
+    .tech-tag {
+        display: inline-block;
+        padding: 5px 15px;
+        background: rgba(0, 198, 255, 0.1);
+        border: 1px solid var(--accent-blue);
+        border-radius: 50px;
+        color: var(--accent-blue);
+        font-size: 0.8rem;
+        margin: 5px;
+    }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: 3.5rem; text-align: center; margin-top: 4rem; }
+    h2 { color: var(--accent-gold); font-family: 'Space Grotesk', sans-serif; }
+    .programming-section { padding-top: 60px; }
+    input {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid #444;
+        color: #fff;
+        padding: 10px 20px;
+        border-radius: 5px;
+        width: 100%;
+        max-width: 300px;
+    }
+    button {
+        background: var(--accent-gold);
+        color: #000;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    button:hover { transform: scale(1.05); background: #fff; }
+    .blink {
+        animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+        from, to { opacity: 1; }
+        50% { opacity: 0; }
+    }
+</style>
+</head>
+<body>
+  <div id="header"></div>
+  <main class="container programming-section">
+    <div data-aos="fade-up">
+      <h1 data-i18n="coding.lab_title">LABORATORIJA</h1>
+      <p style="text-align: center; color: var(--text-muted);" data-i18n="coding.lab_subtitle">Sistēmu izstrāde un AI aģentu darba vide</p>
+    </div>
+    
+    <div class="ai-lab-card" data-aos="fade-up">
+      <section aria-labelledby="intro-title">
+        <h2 id="intro-title" data-i18n="coding.intro_title">Sistēmu Transformācija</h2>
+        <p data-i18n="coding.intro_desc">Ar vairāk nekā 13 gadu pieredzi sociālajā jomā...</p>
+      </section>
+    </div>
+
+    <div class="ai-lab-card" data-aos="fade-up">
+        <h2 data-i18n="coding.tech_stack">Tehnoloģiju Steks</h2>
+        <div class="tech-tags">
+            <span class="tech-tag">Java</span><span class="tech-tag">SQL</span><span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Excel VBA</span><span class="tech-tag">RESTful API</span><span class="tech-tag">Python</span>
+        </div>
+    </div>
+
+    <div class="ai-lab-card" data-aos="fade-up">
+        <h2 id="prompt-lab-title" data-i18n="coding.prompt_title"><i class="fas fa-microchip"></i> AI Prompt Lab</h2>
+        <p data-i18n="coding.prompt_desc">Testē sistēmas arhitektūras promptus un vēro AI aģenta loģikas ķēdi:</p>
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <textarea id="ai-prompt" placeholder="Piemēram: Izstrādā drošu lietotāju autentifikācijas plūsmu..." 
+                      data-i18n="contact.placeholder_msg"
+                      style="flex: 1; min-width: 250px; background: rgba(0,0,0,0.3); border: 1px solid #444; color: #fff; padding: 10px; border-radius: 5px; font-family: inherit; resize: vertical;"></textarea>
+            <button onclick="simulateAIPrompt()" style="align-self: flex-end;" data-i18n="coding.analyze">ANALIZĒT</button>
+        </div>
+        <div id="prompt-output" class="terminal-window" style="margin-top: 1.5rem; border-color: var(--accent-blue);" data-i18n="coding.terminal_idle">
+            > System Idle. Waiting for sequence...
+        </div>
+        <button onclick="copyTerminalOutput()" style="margin-top: 10px; background: none; border: 1px solid #444; color: #aaa; font-size: 0.8rem; padding: 5px 10px;">
+            <i class="fas fa-copy"></i> <span data-i18n="coding.copy_result">KOPĒT REZULTĀTU</span>
+        </button>
+    </div>
+
+    <div class="ai-lab-card" data-aos="fade-up">
+        <h2 id="task-title" data-i18n="coding.generator_title"><i class="fas fa-terminal"></i> Uzdevumu Ģenerators</h2>
+        <p data-i18n="coding.gen_desc">AI Laboratorijas modulis uzdevumu simulācijai:</p>
+        <input type="text" id="topic" placeholder="Ievadi tēmu (piem. masīvi)" data-i18n="coding.placeholder_topic" />
+        <button onclick="generateTask()" data-i18n="coding.execute">IZPILDĪT</button>
+        <div id="result" class="terminal-window" data-i18n="coding.terminal_waiting">
+            > Gaida sistēmas ievadi...
+        </div>
+    </div>
+  </main>
+  <div id="footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script src="js/main.js" defer></script>
+  <script>
+    // Neural Engine: Generate contextual tasks via structural input (Neirālais dzinējs: Ģenerēt kontekstuālus uzdevumus caur strukturālu ievadi)
+    function generateTask() {
+      const lang = localStorage.getItem('preferredLang') || 'lv';
+      const t = translations[lang];
+      const topic = document.getElementById('topic').value.trim().toLowerCase();
+      const result = document.getElementById('result');
+      if (!topic) { result.innerHTML = t["coding.error_no_input"]; return; } // Input validation (Ievades validācija)
+      
+      const lines = [
+        t["coding.log_init"],
+        t["coding.log_analyze"] + topic,
+        t["coding.log_kb"],
+        t["coding.log_gen"]
+      ];
+      
+      let uzdevums; // Logical mapping for simulation (Loģiskā kartēšana simulācijai)
+      if (topic.includes("cikli")) uzdevums = "Izveido 'for' ciklu, kas izvada Fibonači skaitļus līdz 100.";
+      else if (topic.includes("masīv")) uzdevums = "Uzraksti funkciju, kas atrod mediānu no skaitļu masīva.";
+      else uzdevums = "Sistēmas uzdevums: Integrē '" + topic + "' pamata loģiku jaunā API galapunktā.";
+
+      let currentLine = 0;
+      result.innerHTML = "";
+      
+      function printLines() { // Recursive typing animation (Rekursīva rakstīšanas animācija)
+        if (currentLine < lines.length) {
+          result.innerHTML += lines[currentLine] + "<br>";
+          currentLine++;
+          setTimeout(printLines, 300);
+        } else {
+          result.innerHTML += "<br><span style='color: var(--accent-gold)'>" + t["coding.success"] + "</span> " + uzdevums;
+          result.innerHTML += "<span class='blink'>_</span>";
+        }
+      }
+      printLines();
+    }
+
+    // Simulate neural logic sequence (Simulēt neirālās loģikas sekvenci)
+    function simulateAIPrompt() {
+        const lang = localStorage.getItem('preferredLang') || 'lv';
+        const t = translations[lang];
+        const prompt = document.getElementById('ai-prompt').value.trim();
+        const output = document.getElementById('prompt-output');
+        if (!prompt) { output.innerHTML = t["coding.error_no_prompt"]; return; }
+
+        const personalities = [
+            t["coding.p_arch"],
+            t["coding.p_sec"],
+            t["coding.p_ux"],
+            t["coding.p_ds"],
+            t["coding.p_cloud"]
+        ];
+        const randomPersonality = personalities[Math.floor(Math.random() * personalities.length)];
+
+        const sequence = [
+            t["coding.log_neural"],
+            t["coding.log_agent"] + "<span style='color: var(--accent-gold)'>" + randomPersonality + "</span>",
+            t["coding.log_intent"] + "'" + prompt.substring(0, 30) + "...'",
+            t["coding.log_map"],
+            t["coding.log_query"],
+            "> <span style='color: var(--accent-gold)'>" + t["coding.generated"] + "</span> Risinājums sagatavots pēc " + randomPersonality + " loģikas."
+        ];
+
+        let i = 0;
+        output.innerHTML = "";
+        function runSeq() {
+            if (i < sequence.length) {
+                output.innerHTML += sequence[i] + "<br>";
+                i++;
+                setTimeout(runSeq, 600);
+                output.scrollTop = output.scrollHeight;
+            } else {
+                output.innerHTML += "> <span class='blink'>_</span>";
+            }
+        }
+        runSeq();
+    }
+
+    function copyTerminalOutput() {
+        const lang = localStorage.getItem('preferredLang') || 'lv';
+        const t = translations[lang];
+        const output = document.getElementById('prompt-output').innerText;
+        navigator.clipboard.writeText(output).then(() => {
+            alert(t["coding.alert_copied"]);
+        });
+    }
+  </script>
+</body>
+</html>

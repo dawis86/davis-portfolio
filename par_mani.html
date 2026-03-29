@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Par Mani - AI Arhitekts</title>
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link rel="stylesheet" href="css/global_style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --neon-blue: #00c6ff;
+      --neon-purple: #bd00ff;
+      --neon-green: #00ff88;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: #050505;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    .video-background {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      object-fit: cover; z-index: -2; opacity: 0.6;
+    }
+    .video-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(0,0,0,0.4) 0%, #000000 95%);
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 8rem auto 4rem;
+      padding: 0 1.5rem;
+    }
+
+    /* Stikla Paneļi */
+    .glass-panel {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 3rem;
+      backdrop-filter: blur(20px);
+      margin-bottom: 3rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(to right, #fff, #00c6ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    p.bio {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #d1d5db;
+      margin-bottom: 1rem;
+    }
+
+    /* SKILLS SECTION */
+    .skills-header {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .skills-header i { color: var(--neon-blue); }
+
+    .skill-box {
+      margin-bottom: 1.5rem;
+    }
+
+    .skill-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      width: 0; /* Sākumā 0, animēsies */
+      position: relative;
+      transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    /* Dažādas krāsas prasmēm */
+    .fill-blue {
+      background: linear-gradient(90deg, #0072ff, #00c6ff);
+      box-shadow: 0 0 15px rgba(0, 198, 255, 0.6);
+    }
+    .fill-purple {
+      background: linear-gradient(90deg, #8e2de2, #4a00e0);
+      box-shadow: 0 0 15px rgba(138, 43, 226, 0.6);
+    }
+    .fill-green {
+      background: linear-gradient(90deg, #11998e, #38ef7d);
+      box-shadow: 0 0 15px rgba(56, 239, 125, 0.6);
+    }
+
+    /* Spīdums, kas skrien pāri */
+    .progress-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transform: skewX(-20deg) translateX(-150%);
+      animation: shine 2s infinite;
+    }
+
+    /* TIMELINE STILI */
+    .timeline {
+      position: relative;
+      padding: 2rem 0;
+      margin-top: 2rem;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      width: 2px;
+      height: 100%;
+      background: var(--glass-border);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 3rem;
+      width: 100%;
+      position: relative;
+    }
+    .timeline-content {
+      width: 45%;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--glass-border);
+      border-radius: 15px;
+      backdrop-filter: blur(10px);
+    }
+    .timeline-item:nth-child(even) { flex-direction: row-reverse; }
+    .timeline-dot {
+      position: absolute;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      background: var(--neon-blue);
+      border-radius: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 15px var(--neon-blue);
+      z-index: 1;
+    }
+    .timeline-date { font-family: 'Space Grotesk', sans-serif; font-weight: 700; color: var(--neon-blue); margin-bottom: 0.5rem; display: block; }
+
+    /* MOTIVATIONAL QUOTE */
+    .quote-section {
+      margin: 4rem 0;
+      text-align: center;
+      padding: 2rem;
+      border-left: 2px solid var(--accent-gold);
+      background: rgba(212, 175, 55, 0.02);
+    }
+    .motivational-quote {
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--accent-gold);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+
+    /* SIGNATURE STYLE */
+    .signature-container {
+      text-align: right;
+      margin-top: 3rem;
+      padding-right: 1rem;
+    }
+    .signature-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.8rem;
+      color: #d4af37; /* Gold accent */
+      opacity: 0.9;
+      text-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+
+    /* ARCHITECTURE DIAGRAM */
+    .diagram-container {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 2rem 0;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .diagram-node {
+      text-align: center;
+      z-index: 2;
+    }
+    .diagram-node i {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .diagram-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--accent-gold);
+    }
+    .diagram-subtext {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .flow-arrow {
+      position: relative;
+      width: 100px;
+      height: 2px;
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .flow-arrow::after {
+      content: '➤';
+      position: absolute;
+      top: -10px;
+      left: 0;
+      color: var(--accent-blue);
+      animation: flowAnim 2s infinite linear;
+    }
+    @keyframes flowAnim {
+      0% { left: 0; opacity: 0; }
+      50% { opacity: 1; }
+      100% { left: 100%; opacity: 0; }
+    }
+
+    @keyframes shine {
+      100% { transform: skewX(-20deg) translateX(150%); }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2rem; }
+      .glass-panel { padding: 1.5rem; }
+      .timeline::before { left: 20px; }
+      .timeline-item { justify-content: flex-start; }
+      .timeline-item:nth-child(even) { flex-direction: row; }
+      .timeline-content { width: calc(100% - 50px); margin-left: 50px; }
+      .timeline-dot { left: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop playsinline class="video-background">
+    <source src="images/Background.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+
+  <div id="header"></div>
+
+  <main class="container">
+    
+    <!-- Bio Sadaļa -->
+    <section class="glass-panel" data-aos="fade-up">
+      <h1 data-i18n="about.title">Kas es esmu?</h1>
+      <p class="bio" data-i18n="about.bio1">
+        Esmu tehnoloģiju entuziasts un <strong>AI Sistēmu Arhitekts</strong> no Latvijas reģioniem. 
+        Kopš 2013. gada strādāju sociālās aprūpes jomā, kur esmu apguvis vissarežģītāko sistēmu — cilvēku — vadību un atbalstu.
+      </p>
+      <p class="bio" data-i18n="about.bio2">
+        Mans ceļš uz IT nav klasisks. Lauku vidē iespējas netiek pasniegtas uz paplātes, tās ir jārada pašam. 
+        Tāpēc šobrīd darbojos paralēli: strādāju pamatdarbā, studēju programmēšanu, optimizēju biznesa procesus Excel vidē un izstrādāju digitālus risinājumus vietējai kopienai un iedzīvotāju padomēm.
+      </p>
+      <p class="bio" data-i18n="about.bio3">
+        Es negaidu ideālus apstākļus. Es izmantoju AI aģentus kā savu personīgo izstrādes komandu, lai viens pats realizētu arhitektūras, kas citkārt prasītu veselu biroju.
+      </p>
+    </section>
+
+    <section class="quote-section" data-aos="fade-in">
+      <blockquote class="motivational-quote" data-i18n="about.quote">
+        "Neatlaidība nav tikai spēja izturēt, bet gan spēja saglabāt fokusu, kad ceļš kļūst grūts. 
+        Mana izaugsme ir pierādījums tam, ka robežas eksistē tikai prātā."
+      </blockquote>
+    </section>
+
+    <!-- Sistēmu Simbiozes Shēma -->
+    <section class="glass-panel" data-aos="fade-up">
+      <div class="skills-header" data-i18n="about.symbiosis_title">
+        <i class="fas fa-project-diagram"></i> Sistēmu Simbiozes Arhitektūra
+      </div>
+      <div class="diagram-container">
+        <div class="diagram-node">
+          <i class="fas fa-file-excel" style="color: #217346;"></i>
+          <span class="diagram-label">EXCEL</span>
+          <span class="diagram-subtext">Named Ranges / Input</span>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="diagram-node">
+          <i class="fab fa-java" style="color: #f89820;"></i>
+          <span class="diagram-label">JAVA CORE</span>
+          <span class="diagram-subtext">Business Logic / POI</span>
+        </div>
+        <div class="flow-arrow"></div>
+        <div class="diagram-node">
+          <i class="fas fa-database" style="color: var(--accent-blue);"></i>
+          <span class="diagram-label">SQL STORAGE</span>
+          <span class="diagram-subtext">MySQL / SQLite</span>
+        </div>
+      </div>
+      <p class="bio" style="text-align: center; font-size: 0.9rem; margin-top: 1rem;" data-i18n="about.symbiosis_desc">
+        Mana unikālā pieeja ļauj izmantot Excel pazīstamo vidi kā jaudīgu datu ievades termināli, ko Java dzinējs transformē un persistē drošās SQL datubāzēs.
+      </p>
+    </section>
+
+    <!-- Timeline Sadaļa -->
+    <section class="glass-panel" data-aos="fade-up">
+      <div class="skills-header" data-i18n="about.timeline_title">
+        <i class="fas fa-history"></i> Ceļš uz Transformāciju
+      </div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date" data-i18n="about.timeline_1_date">2013 - Pašlaik</span>
+            <h3 data-i18n="about.timeline_1_title">Sociālais Darbs & Excel</h3>
+            <p data-i18n="about.timeline_1_text">Ilgstoša pieredze sociālajā sfērā un pirmie soļi automatizācijā. Kopš 2013. gada izmantoju Excel ne tikai datiem, bet kā platformu procesu efektivitātes celšanai un datu pārvaldībai.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date" data-i18n="about.timeline_2_date">2024 - Pašlaik</span>
+            <h3 data-i18n="about.timeline_2_title">AI Inovāciju Fokusā</h3>
+            <p data-i18n="about.timeline_2_text">Nopietna pievēršanās AI Prompt Engineering un arhitektūrai. Mākslīgais intelekts kļūst par galveno instrumentu sarežģītu sistēmu prototipēšanai un efektīvai izstrādei resursu trūkuma apstākļos.</p>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <span class="timeline-date" data-i18n="about.timeline_3_date">2025 - Pašlaik</span>
+            <h3 data-i18n="about.timeline_3_title">IT Arhitektūra & Realizācija</h3>
+            <p data-i18n="about.timeline_3_text">Paralēlas programmēšanas studijas un reāli IT projekti. Izstrādāju mājaslapas pašvaldību iedzīvotāju padomēm un būvēju mērogojamas programmatūras struktūras, mērķtiecīgi pārejot uz IT sfēru.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prasmju Sadaļa -->
+    <section class="glass-panel" data-aos="fade-up" data-aos-delay="100">
+      <div class="skills-header" data-i18n="skills.title">
+        <i class="fas fa-bolt"></i> Tehniskais Arsenāls
+      </div>
+
+      <!-- Skill 1 -->
+      <div class="skill-box">
+        <div class="skill-info">
+          <span>AI Prompt Engineering & Architecture</span>
+          <span>98%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill fill-blue" data-width="98%"></div>
+        </div>
+      </div>
+
+      <!-- Skill 2 -->
+      <div class="skill-box">
+        <div class="skill-info">
+          <span>Sistēmu Analīze & Plānošana</span>
+          <span>90%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill fill-purple" data-width="90%"></div>
+        </div>
+      </div>
+
+      <!-- Skill 3 -->
+      <div class="skill-box">
+        <div class="skill-info">
+          <span>Web Technologies (HTML/CSS/JS)</span>
+          <span>85%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill fill-green" data-width="85%"></div>
+        </div>
+      </div>
+
+      <!-- Skill 4 -->
+      <div class="skill-box">
+        <div class="skill-info">
+          <span>Python & Data Automation</span>
+          <span>80%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill fill-blue" data-width="80%"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <div class="signature-container" data-aos="fade-in" data-aos-delay="600">
+      <div class="signature-text">Dāvis Strazds</div>
+    </div>
+
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js" defer></script>
+  <script>
+    // Animate skill bars on load (Animēt prasmju joslas pie ielādes)
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const bars = document.querySelectorAll('.progress-bar-fill');
+        bars.forEach(bar => {
+          const targetWidth = bar.getAttribute('data-width');
+          bar.style.width = targetWidth;
+        });
+      }, 500); // Neliela aizture efektam
+    });
+  </script>
+</body>
+</html>

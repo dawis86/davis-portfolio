@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manas Prasmes</title>
+  <link rel="icon" type="image/png" href="images/logo.png">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="css/global_style.css" />
+  <style>
+    h1 {
+      text-align: center;
+      margin: 2rem 0 1rem;
+      font-size: 3rem;
+      font-family: 'Space Grotesk', sans-serif;
+      color: #fff;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin: 2rem 10% 1rem;
+      color: var(--accent-gold);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      padding: 0 10% 2rem;
+    }
+
+    .skill-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 1.5rem;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .skill-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .skill-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .skill-header i {
+      font-size: 1.8rem;
+      color: var(--accent-blue);
+    }
+    
+    .skill-header strong { color: #fff; }
+
+    .progress-bar {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 30px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 0.5rem;
+      position: relative;
+    }
+
+    .progress {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-blue), var(--accent-gold));
+      transition: width 1s ease-in-out, background 0.4s ease, box-shadow 0.4s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Krāsu maiņas efekts uz hover */
+    .skill-card:hover .progress {
+      background: linear-gradient(90deg, #bd00ff, #00ff88);
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
+    }
+
+    /* Shimmer effect */
+    .progress::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+    @keyframes shimmer { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
+
+    /* LEGACY HIGHLIGHT */
+    .legacy-highlight {
+      border: 1px solid var(--accent-gold) !important;
+      background: rgba(212, 175, 55, 0.05) !important;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.1);
+    }
+    .legacy-badge {
+      font-size: 0.65rem;
+      color: var(--accent-gold);
+      letter-spacing: 1.5px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .skill-desc-small { font-size: 0.85rem; color: var(--text-muted); margin-top: 8px; line-height: 1.4; }
+
+    .skill-details-extra {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-out, margin-top 0.3s;
+      font-size: 0.85rem;
+      color: #fff;
+      border-top: 1px dashed rgba(212, 175, 55, 0.3);
+    }
+    .skill-card.active .skill-details-extra {
+      max-height: 200px;
+      margin-top: 15px;
+      padding-top: 10px;
+    }
+
+    /* AI Tools Icons */
+    .ai-tools {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .ai-tools i { transition: transform 0.3s; }
+    .ai-tools i:hover { transform: scale(1.2); }
+    .fa-openai { color: #74aa9c; } /* ChatGPT color */
+    .fa-brain { color: #d97757; }   /* Claude/Anthropic vibe */
+    .fa-wand-magic-sparkles { color: #4285f4; } /* Gemini color */
+
+    /* Typing Animation */
+    .skill-card.active .typing-text {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+      border-right: 2px solid var(--accent-gold);
+      width: 0;
+      animation: typing 2s steps(40, end) forwards, blink .75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: var(--accent-gold); }
+    }
+
+    @media (max-width: 600px) {
+      .skills-grid {
+        padding: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="header"></div>
+
+  <h1 data-i18n="nav.skills">Manas Prasmes</h1>
+
+  <h2 class="section-title" data-i18n="skills.cat_human">Human Systems</h2>
+  <div class="skills-grid">
+    <div class="skill-card" data-aos="fade-up">
+      <div class="skill-header">
+        <i class="fas fa-users"></i>
+        <div>
+          <strong data-i18n="skills.social_work">Sociālais darbs</strong>
+          <div class="progress-bar"><div class="progress" style="width: 100%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li data-i18n="skills.social_work_li1">Krīzes situāciju vadība un emocionālā inteliģence.</li>
+              <li data-i18n="skills.social_work_li2">Individuālo vajadzību izvērtēšana un atbalsta plānošana.</li>
+              <li data-i18n="skills.social_work_li3">Darbs ar sarežģītām sociālām sistēmām un cilvēku algoritmiem.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
+      <div class="skill-header">
+        <i class="fas fa-user-cog"></i>
+        <div>
+          <strong data-i18n="skills.team_mgmt">Komandas vadība</strong>
+          <div class="progress-bar"><div class="progress" style="width: 90%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li>Darba plūsmas organizēšana un efektīva deleģēšana.</li>
+              <li>Komandas motivēšana un kopīgu mērķu izvirzīšana.</li>
+              <li>Resursu plānošana un operatīvā efektivitāte.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
+      <div class="skill-header">
+        <i class="fas fa-chess"></i>
+        <div>
+          <strong>Organizatoriskās prasmes</strong>
+          <div class="progress-bar"><div class="progress" style="width: 85%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li>Projektu koordinēšana no idejas līdz pilnīgai izpildei.</li>
+              <li>Procesu dokumentēšana un darbības standartizācija.</li>
+              <li>Laika menedžments un prioritāšu stratēģiskā noteikšana.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" data-i18n="skills.cat_tech">Core Tech</h2>
+  <div class="skills-grid">
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
+      <div class="skill-header">
+        <i class="fas fa-code"></i>
+        <div>
+          <strong data-i18n="skills.html_css">HTML / CSS</strong>
+          <div class="progress-bar"><div class="progress" style="width: 60%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li>Semantisks HTML5 un modernais CSS3 (Grid, Flexbox).</li>
+              <li>Responsive Web Design un Mobile-First pieeja.</li>
+              <li>UI animāciju (AOS) un Glassmorphism efektu integrācija.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
+      <div class="skill-header">
+        <i class="fab fa-js-square"></i>
+        <div>
+          <strong>JavaScript</strong>
+          <div class="progress-bar"><div class="progress" style="width: 30%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li>ES6+ sintakse un funkcionālās programmēšanas pamati.</li>
+              <li>Dinamiska DOM manipulācija un Fetch API integrācija.</li>
+              <li>Asinhronā programmēšana (Promises, Async/Await).</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="500">
+      <div class="skill-header">
+        <i class="fas fa-database"></i>
+        <div>
+          <strong>SQL</strong>
+          <div class="progress-bar"><div class="progress" style="width: 25%"></div></div>
+          <div class="skill-details-extra">
+            <ul>
+              <li>Relāciju datubāzu (MySQL, SQLite) struktūras izveide.</li>
+              <li>JOIN operācijas un datu agregācija vaicājumos.</li>
+              <li>Datu bāzu integrācija ar Java un Excel sistēmām.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="skill-card legacy-highlight" data-aos="fade-up" data-aos-delay="600">
+      <div class="skill-header">
+        <i class="fas fa-table"></i>
+        <div>
+          <div class="legacy-badge">Legacy Powerhouse</div>
+          <strong data-i18n="skills.excel_legacy">Excel / Data Symbiosis</strong>
+          <div class="progress-bar"><div class="progress" style="width: 95%"></div></div>
+          <p class="skill-desc-small" data-i18n="skills.excel_desc">Named Ranges integrācija ar Java, MySQL/SQLite sinhronizācija un datu migrācijas arhitektūra.</p>
+          <div class="skill-details-extra">
+            <ul>
+              <li>Dinamiska datu nolasīšana no Excel "Named Ranges" izmantojot Java POI.</li>
+              <li>Automatizēta migrācijas shēma uz SQL serveriem (MySQL/SQLite).</li>
+              <li>Divvirzienu sinhronizācija datu integritātes uzturēšanai.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-title" data-i18n="skills.cat_ai">AI & Automation</h2>
+  <div class="skills-grid">
+      <div class="skill-card" data-aos="fade-up">
+          <div class="skill-header">
+              <i class="fas fa-robot"></i>
+              <div>
+                  <strong data-i18n="skills.prompt_eng">Prompt Engineering</strong>
+                  <div class="progress-bar"><div class="progress" style="width: 98%"></div></div>
+                  <div class="skill-details-extra">
+                    <div class="ai-tools">
+                      <i class="fab fa-openai" title="ChatGPT"></i>
+                      <i class="fas fa-brain" title="Claude"></i>
+                      <i class="fas fa-wand-magic-sparkles" title="Gemini"></i>
+                    </div>
+                    <ul>
+                      <li><span class="typing-text">Sistēmu lomu un konteksta optimizācija.</span></li>
+                      <li><span class="typing-text">Chain-of-Thought uzvedņu inženierija.</span></li>
+                      <li><span class="typing-text">AI aģentu darba plūsmu projektēšana.</span></li>
+                    </ul>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <h2 class="section-title" data-i18n="skills.learning_title">Mācību process</h2>
+  <div class="skills-grid">
+    <div class="skill-card" data-aos="fade-up" data-aos-delay="700">
+      <div class="skill-header">
+        <i class="fas fa-laptop-code"></i>
+        <div>
+          <strong data-i18n="skills.learning_cert">Programmēšanas tehniķis</strong>
+          <p style="margin-top: 0.5rem; font-size: 0.9rem;" data-i18n="skills.learning_desc">Tālmācībā, kopš 2025. gada marta. Mācības notiek attālināti.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="footer"></div>
+
+  <script src="js/translations.js"></script>
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script src="js/main.js" defer></script>
+  <script>
+    // Toggle active state on click (Pārslēgt aktīvo stāvokli ar klikšķi)
+    document.querySelectorAll('.skill-card').forEach(card => {
+      card.addEventListener('click', function() {
+        this.classList.toggle('active');
+      });
+    });
+  </script>
+</body>
+</html>
