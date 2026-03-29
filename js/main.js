@@ -127,7 +127,10 @@ async function fetchDynamicTestimonials() {
 
     try {
         const response = await fetch(TESTIMONIALS_API);
-        const reviews = await response.json();
+        let reviews = await response.json();
+
+        // Handle cases where API returns an object with a data array (Apstrādāt gadījumus, ja API atgriež objektu ar datu masīvu)
+        if (reviews && reviews.data) reviews = reviews.data;
         
         if (!reviews || reviews.length === 0) {
             container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem;" data-i18n="testimonials.empty">Pašlaik atsauksmju vēl nav. Esi pirmais!</p>`;
@@ -135,22 +138,29 @@ async function fetchDynamicTestimonials() {
             return;
         }
 
-        container.innerHTML = reviews.map((rev, idx) => {
-            // Auto-generate profile initials from name (Automātiski ģenerēt profila iniciāļus no vārda)
-            const initials = (rev.name || "A").split(' ').map(n => n[0]).join('').toUpperCase();
+        // Filter for approved reviews if the script doesn't do it server-side (Filtrēt apstiprinātās atsauksmes, ja skripts to nedara servera pusē)
+        const approvedReviews = reviews.filter(rev => rev.Approved === true || rev.Approved === "TRUE" || rev.Approved === 1);
+
+        container.innerHTML = approvedReviews.map((rev, idx) => {
+            // Normalize keys to match Spreadsheet headers (Normalizēt atslēgas, lai tās atbilstu tabulas galvenēm)
+            const name = rev.Name || rev.name || "Anonymous";
+            const message = rev.Message || rev.message || "";
+            const dateRaw = rev.Timestamp || rev.date || new Date();
+
+            const initials = name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
             
             // Safe date parsing to prevent UI crashes (Droša datuma apstrāde, lai novērstu saskarnes kļūdas)
-            const revDate = rev.date ? new Date(rev.date) : new Date();
+            const revDate = new Date(dateRaw);
             const formattedDate = isNaN(revDate) ? new Date().toLocaleDateString() : revDate.toLocaleDateString(lang === 'lv' ? 'lv-LV' : 'en-US');
 
             return `
             <div class="testimonial-card" data-tilt data-aos="fade-up" data-aos-delay="${idx * 100}">
                 <div class="card-content">
                     <i class="fas fa-quote-left"></i>
-                    <p class="testimonial-text">"${rev.message}"</p>
+                    <p class="testimonial-text">"${message}"</p>
                     <div class="testimonial-author">
                         <div class="author-avatar">${initials}</div>
-                        <h3>${rev.name}</h3>
+                        <h3>${name}</h3>
                         <p>${formattedDate}</p>
                         <div class="rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
