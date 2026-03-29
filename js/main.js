@@ -1,5 +1,5 @@
 // API ENDPOINT: Google Apps Script for cloud-side data processing (API GALAPUNKTS: Google Apps Script mākoņpakalpojuma datu apstrādei)
-const TESTIMONIALS_API = 'https://script.google.com/macros/s/AKfycbwq4yatKjJC2aCIlh13f4jubsj9omrnpJ9MeprymaIOjca4SEaqXliWhyLeHyNG8z9e/exec';
+const TESTIMONIALS_API = 'https://script.google.com/macros/s/AKfycbywFOinUTBz29y3djPJk7iCf4gFEqnTuY4_JMKiODl1GK63NX1AOurI2usKrsgjSV9SwQ/exec';
 
 // Programmatic Audio Engine: Real-time UI feedback synthesis (Programmatiskais audio dzinējs: Reāllaika saskarnes atsauksmju sintēze)
 let audioCtx;
@@ -132,7 +132,7 @@ async function fetchDynamicTestimonials() {
         // Handle cases where API returns an object with a data array (Apstrādāt gadījumus, ja API atgriež objektu ar datu masīvu)
         if (reviews && reviews.data) reviews = reviews.data;
         
-        if (!reviews || reviews.length === 0) {
+        if (!Array.isArray(reviews) || reviews.length === 0) {
             container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem;" data-i18n="testimonials.empty">Pašlaik atsauksmju vēl nav. Esi pirmais!</p>`;
             translatePage();
             return;
