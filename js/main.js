@@ -138,11 +138,8 @@ async function fetchDynamicTestimonials() {
             return;
         }
 
-        // Filter for approved reviews if the script doesn't do it server-side (Filtrēt apstiprinātās atsauksmes, ja skripts to nedara servera pusē)
-        const approvedReviews = reviews.filter(rev => rev.Approved === true || rev.Approved === "TRUE" || rev.Approved === 1);
-
-        container.innerHTML = approvedReviews.map((rev, idx) => {
-            // Normalize keys to match Spreadsheet headers (Normalizēt atslēgas, lai tās atbilstu tabulas galvenēm)
+        container.innerHTML = reviews.map((rev, idx) => {
+            // Use keys returned by Google Apps Script (Izmantot atslēgas, ko atgriež Google Apps Script)
             const name = rev.Name || rev.name || "Anonymous";
             const message = rev.Message || rev.message || "";
             const dateRaw = rev.Timestamp || rev.date || new Date();
