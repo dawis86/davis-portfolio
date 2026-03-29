@@ -171,6 +171,15 @@ async function fetchDynamicTestimonials() {
         // Apply 3D effects to new elements (Lietot 3D efektus jaunajiem elementiem)
         if (typeof VanillaTilt !== 'undefined') {
             VanillaTilt.init(document.querySelectorAll(".testimonial-card"), { max: 10, speed: 400 });
+            
+            // Global glow tracker for dynamic cards (Globālais spīduma izsekotājs dinamiskajām kartītēm)
+            document.querySelectorAll('.testimonial-card').forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+                    card.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+                });
+            });
         }
     } catch (err) {
         console.error("Neizdevās ielādēt atsauksmes:", err);

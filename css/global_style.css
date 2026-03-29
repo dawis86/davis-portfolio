@@ -161,6 +161,11 @@ body {
     color: var(--accent-gold);
 }
 
+.navbar-menu li a.active {
+    color: var(--accent-gold);
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+}
+
 .navbar-menu li a:hover::after {
     width: 100%;
 }
