@@ -77,7 +77,7 @@ const translations = {
         "excel.approach_title": "Mana pieeja Excel",
         "excel.approach_desc": "Es redzu Excel ne tikai kā programmu aprēķiniem, bet kā elastīgu platformu. Tā var kalpot gan kā ātrs prototipēšanas rīks sarežģītām sistēmām, gan kā jaudīgs instruments ikdienas darba efektivitātei.",
         "excel.tech_title": "Tehniskie risinājumi",
-        "excel.tech_desc": "Izmantoju Excel kā datu ievades vidi, ko Java dzinējs transformē drošās SQL datubāzēs.",
+        "excel.tech_desc": "Izmantoju Excel Named Ranges arhitektūru kā strukturētu datu saskarni. Java dzinējs caur Apache POI nolasītos objektus validē, transformē un caur JDBC persistē drošās SQL datubāzēs (MySQL/SQLite).",
         "excel.edu_title": "Apmācības un efektivitāte",
         "excel.edu_desc": "Palīdzu komandām atklāt Power Query, Pivot tabulu un datu vizualizācijas patieso potenciālu.",
         "excel.services": "Pakalpojumi",

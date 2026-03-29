@@ -138,6 +138,11 @@ async function fetchDynamicTestimonials() {
         container.innerHTML = reviews.map((rev, idx) => {
             // Auto-generate profile initials from name (Automātiski ģenerēt profila iniciāļus no vārda)
             const initials = (rev.name || "A").split(' ').map(n => n[0]).join('').toUpperCase();
+            
+            // Safe date parsing to prevent UI crashes (Droša datuma apstrāde, lai novērstu saskarnes kļūdas)
+            const revDate = rev.date ? new Date(rev.date) : new Date();
+            const formattedDate = isNaN(revDate) ? new Date().toLocaleDateString() : revDate.toLocaleDateString(lang === 'lv' ? 'lv-LV' : 'en-US');
+
             return `
             <div class="testimonial-card" data-tilt data-aos="fade-up" data-aos-delay="${idx * 100}">
                 <div class="card-content">
@@ -146,7 +151,7 @@ async function fetchDynamicTestimonials() {
                     <div class="testimonial-author">
                         <div class="author-avatar">${initials}</div>
                         <h3>${rev.name}</h3>
-                        <p>${new Date(rev.date).toLocaleDateString(lang === 'lv' ? 'lv-LV' : 'en-US')}</p>
+                        <p>${formattedDate}</p>
                         <div class="rating">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
