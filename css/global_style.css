@@ -1,9 +1,25 @@
-/* Typography Architecture: Loading high-end Google fonts (Tipogrāfijas arhitektūra: Augstas klases Google fontu ielāde) */
+/**
+ * File: global_style.css
+ * Purpose: Global design system and UI components using Glassmorphism.
+ * (Mērķis: Globālā dizaina sistēma un UI komponentes, izmantojot Glassmorphism.)
+ * Author: Dāvis Strazds
+ * Dependencies: Google Fonts (Outfit, Space Grotesk)
+ * Architecture: Atomic CSS variables with a modular component-based layout.
+ * (Arhitektūra: Atomāri CSS mainīgie ar modulāru, uz komponentēm balstītu izkārtojumu.)
+ */
+
+/* --- TYPOGRAPHY ARCHITECTURE (Tipogrāfijas arhitektūra) --- */
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
 
+/* --- DESIGN TOKENS / VARIABLES (Dizaina mainīgie) --- */
 :root {
-    --primary-color: #050505;
-    --accent-gold: #d4af37;
+    /* Dark theme foundation for maximum contrast (Tumšās tēmas pamats maksimālam kontrastam) */
+    --primary-color: #050505; 
+    
+    /* Gold palette for premium branding identity (Zelta palete premium zīmola identitātei) */
+    --accent-gold: #d4af37; 
+    
+    /* Blue accents for technical/digital feel (Zilie akcenti tehniskai/digitālai sajūtai) */
     --accent-blue: #00c6ff;
     --glass-bg: rgba(255, 255, 255, 0.03);
     --text-color: #ffffff;
@@ -12,15 +28,20 @@
     --glass-border: rgba(255, 255, 255, 0.08);
     --shadow-hover: 0 8px 24px rgba(212, 175, 55, 0.3);
     --transition-speed: 0.3s;
+    --primary-gradient: linear-gradient(135deg, #00c6ff, #0072ff);
+    --gold-gradient: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+    --error-color: #ff416c;
 }
 
-/* Viewport Logic: Smooth scrolling for premium UX (Skata loģika: Gluda ritināšana augstas klases lietotāja pieredzei) */
+/* === VIEWPORT LOGIC (Skata loģika) === 
+   Ensures consistent spatial rhythm and prevents header overlap on anchor navigation.
+   (Nodrošina konsekventu telpisko ritmu un novērš galvenes pārklāšanos enkura navigācijā.) */
 html {
     scroll-behavior: smooth;
-    scroll-padding-top: 100px; /* Offset for fixed navigation (Atstarpe fiksētajai navigācijai) */
+    scroll-padding-top: 100px; 
 }
 
-/* Scrollbar Interface: Custom gold-accented thumb (Ritjoslas saskarne: Pielāgota zelta akcenta josla) */
+/* === SCROLLBAR INTERFACE (Ritjoslas saskarne) === */
 ::-webkit-scrollbar {
     width: 4px;
 }
@@ -32,7 +53,9 @@ html {
     border-radius: 10px;
 }
 
-/* Text selection highlight color (Teksta iezīmēšanas izcelšanas krāsa) */
+/* === CORE BODY STYLING (Galvenie ķermeņa stili) === 
+   Global reset and base font-smoothing for high-DPI displays.
+   (Globālā atiestatīšana un bāzes fontu izlīdzināšana augstas izšķirtspējas displejiem.) */
 ::selection {
     background: var(--accent-gold);
     color: #000;
@@ -43,19 +66,21 @@ html {
 }
 
 body {
-    margin: 0; padding: 0; /* Reset box model (Atiestatīt kastes modeli) */
+    margin: 0; padding: 0;
     font-family: 'Outfit', sans-serif;
     background-color: var(--primary-color);
     color: var(--text-color);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
-    padding-top: 80px;
-    font-size: clamp(14px, 0.9vw + 10px, 20px); /* Dynamic typography scaling (Dinamiskā tipogrāfijas mērogošana) */
+    padding-top: 0;
+    font-size: clamp(14px, 0.9vw + 10px, 20px); 
     min-height: 100vh;
 }
 
-/* ================= HEADER ================= */
+/* === NAVIGATION / HEADER (Navigācija un galvene) === 
+   Glassmorphism implementation with dynamic backdrop-filter for readability over video.
+   (Glassmorphism implementācija ar dinamisku backdrop-filter salasāmībai virs video.) */
 .navbar {
     background: rgba(5, 5, 5, 0.7);
     backdrop-filter: blur(15px);
@@ -145,6 +170,74 @@ body {
     font-size: 14px;
 }
 
+/* === LOADING STATES / PRELOADER (Ielādes stāvokļi) === 
+   Prevents FOUC (Flash of Unstyled Content) and ensures all assets are context-ready.
+   (Novērš FOUC un nodrošina, ka visi resursi ir gatavi kontekstam.) */
+#preloader {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: #050505;
+    display: flex; justify-content: center; align-items: center;
+    z-index: 9999;
+    transition: opacity 0.8s ease, visibility 0.8s;
+}
+
+.loader-circle {
+    width: 50px; height: 50px;
+    border: 3px solid rgba(212, 175, 55, 0.1);
+    border-top-color: var(--accent-gold);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* === UX UTILITIES (UX palīgrīki) === 
+   Enhances vertical mobility in long-scrolling layouts.
+   (Uzlabo vertikālo mobilitāti garos ritināšanas izkārtojumos.) */
+.scroll-to-top {
+    position: fixed;
+    bottom: 30px; right: 30px;
+    width: 50px; height: 50px;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    color: var(--accent-gold);
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer;
+    z-index: 100;
+    opacity: 0; visibility: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(10px);
+}
+
+.scroll-to-top.visible { opacity: 1; visibility: visible; }
+.scroll-to-top:hover { transform: translateY(-5px); border-color: var(--accent-gold); }
+
+/* === ANIMATION ENGINE (Animāciju dzinējs) === 
+   Centralized timing for UI state transitions.
+   (Centralizēta UI stāvokļa pāreju laika kontrole.) */
+.main-wrapper {
+    transition: opacity 0.5s ease;
+}
+
+.typewriter-text {
+    color: var(--accent-gold);
+    border-right: 2px solid var(--accent-gold);
+    padding-right: 5px;
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+/* --- TERMINAL LOADER (Termināļa ielādētājs) --- */
+.terminal-loader {
+    color: var(--accent-gold);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-style: italic;
+}
+
+@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-gold); } }
 .navbar-menu li a::after {
     content: '';
     position: absolute;
@@ -170,7 +263,9 @@ body {
     width: 100%;
 }
 
-/* Mobile navigation toggle icon (Mobilās navigācijas pārslēgšanas ikona) */
+/* === RESPONSIVE MODIFIERS (Responsīvie modifikatori) === 
+   Adaptive layout adjustments for mobile and ultra-wide displays.
+   (Adaptīvie izkārtojuma pielāgojumi mobilajiem un ultra-platiem displejiem.) */
 .navbar-toggle {
     display: none;
     cursor: pointer;
@@ -233,7 +328,9 @@ body {
     display: none !important;
 }
 
-/* ================= VIDEO BACKGROUND ================= */
+/* === VIDEO ARCHITECTURE (Video arhitektūra) === 
+   Layered stacking to maintain contrast between dynamic assets and UI text.
+   (Slāņots steks, lai saglabātu kontrastu starp dinamiskajiem resursiem un UI tekstu.) */
 .video-background {
     position: fixed;
     top: 0;
@@ -272,7 +369,9 @@ body {
     padding-bottom: 5rem;
 }
 
-/* ================= CONTACT PAGE ================= */
+/* === CONTACT & FORM MODULES (Kontaktu un formu moduļi) === 
+   Implements ergonomic input feedback and interactive mapping logic.
+   (Ievieš ergonomisku ievades atgriezenisko saiti un interaktīvu kartēšanas loģiku.) */
 .contact-container {
     max-width: 1200px;
     margin: 0 auto;

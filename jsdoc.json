@@ -1,0 +1,15 @@
+{
+    "plugins": ["plugins/markdown"],
+    "source": {
+        "include": ["js/main.js", "js/translations.js"],
+        "includePattern": ".+\\.js(doc|x)?$",
+        "excludePattern": "(^|\\/|\\\\)_"
+    },
+    "opts": {
+        "template": "templates/default",
+        "destination": "./docs/",
+        "recurse": true,
+        "readme": "README.md",
+        "encoding": "utf8"
+    }
+}

@@ -90,13 +90,5 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/main.js" defer></script>
-  <script>
-    // Initialize Leaflet.js Dark Map (Inicializēt Leaflet.js tumšo karti)
-    const map = L.map('map', { scrollWheelZoom: false }).setView([56.8796, 24.6032], 7);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
-    L.marker([56.9496, 24.1052]).addTo(map).bindPopup('Dāvis Strazds | Latvija / Attālināti');
-  </script>
 </body>
 </html>

@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: main.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: main.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * File: main.js
  * Purpose: Core UI controller, Localization engine, and Dynamic component initialization.
  * (Mērķis: Galvenais UI kontrolieris, lokalizācijas dzinējs un dinamisko komponentu inicializācija.)
@@ -123,29 +151,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Switches application language with a smooth transition and persists preference.
- * (Pārslēdz aplikācijas valodu ar plūstošu pāreju un saglabā izvēli.)
+ * Switches application language and persists preference.
+ * (Pārslēdz aplikācijas valodu un saglabā izvēli.)
  * @param {string} lang - Locale identifier ('lv'|'en').
+ * Why: Reloading is architecturally safer for dynamic script re-initialization.
+ * (Kāpēc: Pārlāde ir arhitektoniski drošāka dinamisko skriptu pārizsauksmei.)
  */
 function switchLanguage(lang) {
-    const main = document.querySelector('.main-wrapper');
-    if (main) main.style.opacity = '0';
-    
-    setTimeout(() => {
-        localStorage.setItem('preferredLang', lang);
-        document.documentElement.lang = lang;
-        translatePage();
-        updateLangButtons();
-        
-        // Close mobile menu if open (Aizvērt mobilo izvēlni, ja tā ir atvērta)
-        const menu = document.getElementById('nav-menu');
-        if (menu) menu.classList.remove('active');
-
-        if (main) main.style.opacity = '1';
-        
-        // Re-init dynamic components (Pārinicializēt dinamiskās komponentes)
-        initTypewriter();
-    }, 500);
+    localStorage.setItem('preferredLang', lang);
+    document.documentElement.lang = lang;
+    translatePage();
+    updateLangButtons();
+    window.location.reload();
 }
 
 /**
@@ -197,10 +214,10 @@ async function fetchDynamicTestimonials() {
         const response = await fetch(TESTIMONIALS_API);
         let reviews = await response.json();
 
-        if (reviews && reviews.data) reviews = reviews.data;
+        if (reviews &amp;&amp; reviews.data) reviews = reviews.data;
         
         if (!Array.isArray(reviews) || reviews.length === 0) {
-            container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem;" data-i18n="testimonials.empty">Pašlaik atsauksmju vēl nav. Esi pirmais!</p>`;
+            container.innerHTML = `&lt;p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem;" data-i18n="testimonials.empty">Pašlaik atsauksmju vēl nav. Esi pirmais!&lt;/p>`;
             translatePage();
             return;
         }
@@ -216,20 +233,20 @@ async function fetchDynamicTestimonials() {
             const formattedDate = isNaN(revDate) ? new Date().toLocaleDateString() : revDate.toLocaleDateString(lang === 'lv' ? 'lv-LV' : 'en-US');
 
             return `
-            <div class="testimonial-card" data-tilt data-aos="fade-up" data-aos-delay="${idx * 100}">
-                <div class="card-content">
-                    <i class="fas fa-quote-left"></i>
-                    <p class="testimonial-text">"${message}"</p>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">${initials}</div>
-                        <h3>${name}</h3>
-                        <p>${formattedDate}</p>
-                        <div class="rating">
-                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            &lt;div class="testimonial-card" data-tilt data-aos="fade-up" data-aos-delay="${idx * 100}">
+                &lt;div class="card-content">
+                    &lt;i class="fas fa-quote-left">&lt;/i>
+                    &lt;p class="testimonial-text">"${message}"&lt;/p>
+                    &lt;div class="testimonial-author">
+                        &lt;div class="author-avatar">${initials}&lt;/div>
+                        &lt;h3>${name}&lt;/h3>
+                        &lt;p>${formattedDate}&lt;/p>
+                        &lt;div class="rating">
+                            &lt;i class="fas fa-star">&lt;/i>&lt;i class="fas fa-star">&lt;/i>&lt;i class="fas fa-star">&lt;/i>&lt;i class="fas fa-star">&lt;/i>&lt;i class="fas fa-star">&lt;/i>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
             `;
         }).join('');
         
@@ -270,7 +287,7 @@ async function handleFeedbackSubmit(e) {
     if (!email || !emailRegex.test(email)) { emailInput.classList.add('input-error'); hasError = true; }
     if (!message) { msgInput.classList.add('input-error'); hasError = true; }
     
-    if (gdprInput && !gdprInput.checked) {
+    if (gdprInput &amp;&amp; !gdprInput.checked) {
         gdprInput.parentElement.classList.add('input-error');
         hasError = true;
     }
@@ -286,7 +303,7 @@ async function handleFeedbackSubmit(e) {
     const data = { name, email, message };
     const originalBtnHTML = btn.innerHTML;
 
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    btn.innerHTML = '&lt;i class="fas fa-spinner fa-spin">&lt;/i>';
     btn.disabled = true;
 
     try {
@@ -332,7 +349,7 @@ function updateLangButtons() {
 function initScrollToTop() {
     const btn = document.createElement('button');
     btn.className = 'scroll-to-top';
-    btn.innerHTML = '<i class="fas fa-chevron-up"></i>';
+    btn.innerHTML = '&lt;i class="fas fa-chevron-up">&lt;/i>';
     document.body.appendChild(btn);
 
     window.addEventListener('scroll', () => {
@@ -370,10 +387,10 @@ function initTypewriter() {
 
         let typeSpeed = isDeleting ? 50 : 150;
 
-        if (!isDeleting && charIdx === currentRole.length) {
+        if (!isDeleting &amp;&amp; charIdx === currentRole.length) {
             typeSpeed = 2000;
             isDeleting = true;
-        } else if (isDeleting && charIdx === 0) {
+        } else if (isDeleting &amp;&amp; charIdx === 0) {
             isDeleting = false;
             roleIdx = (roleIdx + 1) % roles.length;
             typeSpeed = 500;
@@ -411,7 +428,7 @@ function initScrollSpy() {
 function initHeader() {
     const toggle = document.getElementById('mobile-menu-toggle');
     const menu = document.getElementById('nav-menu');
-    if (toggle && menu) {
+    if (toggle &amp;&amp; menu) {
         toggle.addEventListener('click', () => menu.classList.toggle('active'));
         
         // Close menu when clicking links
@@ -466,26 +483,19 @@ function initLaboratory() {
 
             const personalities = [t["coding.p_arch"], t["coding.p_sec"], t["coding.p_ux"], t["coding.p_ds"], t["coding.p_cloud"]];
             const randomP = personalities[Math.floor(Math.random() * personalities.length)];
-            const sequence = [t["coding.log_neural"], t["coding.log_agent"] + `<span style="color:var(--accent-gold)">${randomP}</span>`, t["coding.log_query"]];
-            
-            // Rādīt ielādes animāciju pirms simulācijas sākuma
-            output.innerHTML = `<div class="terminal-loader"><i class="fas fa-spinner fa-spin"></i> Initializing neural link...</div>`;
-            let i = 0;
-            
-            const runVisuals = async () => {
-                output.innerHTML = ""; // Notīrām ielādes ziņojumu pirms sekvences sākuma
-                for (const line of sequence) {
-                    output.innerHTML += line + "<br>";
-                    output.scrollTop = output.scrollHeight;
-                    await new Promise(r => setTimeout(r, 600));
-                }
+            const sequence = [t["coding.log_neural"], t["coding.log_agent"] + `&lt;span style="color:var(--accent-gold)">${randomP}&lt;/span>`, t["coding.log_intent"] + `'${prompt.substring(0, 30)}...'`, t["coding.log_map"], t["coding.log_query"]]; /* Orchestrate visual delay for realism (Koordinē vizuālo aizturi reālismam) */
 
-                // Simulate AI response (Simulē MI atbildi)
-                const simulatedResponse = t["coding.generated_simulated_response"] || "Simulēta atbilde no MI aģenta.";
-                output.innerHTML += `<br>> <span style="color:var(--accent-gold)">AI RESPONSE (Simulated):</span> ${simulatedResponse}<br>> <span class="blink">_</span>`;
-                output.scrollTop = output.scrollHeight;
+            let i = 0; output.innerHTML = "";
+            const run = () => {
+                if (i &lt; sequence.length) {
+                    output.innerHTML += sequence[i++] + "&lt;br>";
+                    output.scrollTop = output.scrollHeight;
+                    setTimeout(run, 600);
+                } else {
+                    output.innerHTML += `> &lt;span style="color:var(--accent-gold)">${t["coding.generated"]}&lt;/span> Risinājums sagatavots.&lt;br>> &lt;span class="blink">_&lt;/span>`;
+                }
             };
-            runVisuals();
+            run();
         });
     }
 
@@ -504,11 +514,11 @@ function initLaboratory() {
             
             let i = 0; result.innerHTML = "";
             const printLines = () => {
-                if (i < lines.length) {
-                    result.innerHTML += lines[i++] + "<br>";
+                if (i &lt; lines.length) {
+                    result.innerHTML += lines[i++] + "&lt;br>";
                     setTimeout(printLines, 300);
                 } else {
-                    result.innerHTML += `<br><span style="color:var(--accent-gold)">${t["coding.success"]}</span> ${uzdevums}<span class="blink">_</span>`;
+                    result.innerHTML += `&lt;br>&lt;span style="color:var(--accent-gold)">${t["coding.success"]}&lt;/span> ${uzdevums}&lt;span class="blink">_&lt;/span>`;
                 }
             };
             printLines();
@@ -621,4 +631,26 @@ function initLeafletMap() {
 function initFooter() { 
     const year = document.getElementById('year');
     if (year) year.textContent = new Date().getFullYear(); 
-}
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterInterval">typewriterInterval</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 11:01:00 GMT+0300 (Austrumeiropas vasaras laiks)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

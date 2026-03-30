@@ -1,0 +1,27 @@
+{
+  "name": "mana-majas-lapa",
+  "version": "1.0.0",
+  "description": "AI Systems Architect Portfolio",
+  "scripts": {
+    "generate-docs": "jsdoc -c jsdoc.json",
+    "start": "node server.js"
+  },
+  "devDependencies": {
+    "jsdoc": "^4.0.5"
+  },
+  "dependencies": {
+    "express": "^4.22.1"
+  },
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dawis86/davis-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dawis86/davis-portfolio/issues"
+  },
+  "homepage": "https://github.com/dawis86/davis-portfolio#readme"
+}

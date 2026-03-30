@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!--
+  File: projekti.html
+  Purpose: Professional portfolio showcasing project architecture and methodologies.
+  (Mērķis: Profesionālais portfolio, kas demonstrē projektu arhitektūru un metodoloģijas.)
+  Author: Dāvis Strazds
+  Dependencies: VanillaTilt.js (Interactive 3D effects), main.js (Modal logic)
+  Link: VanillaTilt Documentation: https://micku7zu.github.io/vanilla-tilt.js/
+-->
 <html lang="lv">
 <head>
   <meta charset="UTF-8">
@@ -474,53 +482,6 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/main.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.7.0/vanilla-tilt.min.js"></script>
-  <script>
-    // Track mouse for card glow (Izsekot peli kartīšu spīdumam)
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('mousemove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mouse-x', `${x}px`);
-        card.style.setProperty('--mouse-y', `${y}px`);
-      });
-    });
-
-    // Modal Logic
-    const modal = document.getElementById('project-modal');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDesc = document.getElementById('modal-desc');
-    const modalTech = document.getElementById('modal-tech');
-    const closeModalBtn = document.querySelector('.close-modal');
-
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.addEventListener('click', (e) => {
-        // Nepieļaut modālā loga atvēršanu, ja uzspiests uz tiešās saites
-        if (e.target.closest('a')) return;
-
-        const title = card.querySelector('.card-title').innerText;
-        const fullDesc = card.getAttribute('data-full-desc');
-        const techBadges = card.querySelector('.badges').innerHTML;
-
-        modalTitle.innerText = title;
-        modalDesc.innerHTML = fullDesc;
-        modalTech.innerHTML = techBadges;
-
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      });
-    });
-
-    const closeModal = () => {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    };
-
-    closeModalBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
-
-    fetch('header.html').then(res => res.text()).then(d => document.getElementById('header').innerHTML = d);
-    fetch('footer.html').then(res => res.text()).then(d => document.getElementById('footer').innerHTML = d);
-  </script>
+  
 </body>
 </html>

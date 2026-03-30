@@ -1,10 +1,24 @@
 <!DOCTYPE html>
+<!--
+  File: index.html
+  Purpose: Primary landing page with dynamic Hero section and Typewriter roles.
+  (Mērķis: Primārā mērķlapa ar dinamisku Hero sekciju un rakstāmmašīnas lomām.)
+  Author: Dāvis Strazds
+  Dependencies: global_style.css, main.js, translations.js
+  Architecture: Layered visual stack combining video backgrounds with radial overlays for depth.
+  (Arhitektūra: Slāņots vizuālais steks, apvienojot video fonus ar radiāliem pārklājumiem dziļumam.)
+-->
 <html lang="lv">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dāvis Strazds | AI Systems Architect - Galvenā</title>
   <meta name="description" content="Inovatīva AI aģentu vadība, sistēmu arhitektūra un nākotnes programmēšana. Dāvis Strazds - arhitekts, kurš būvē nākotni.">
+  <meta property="og:title" content="Dāvis Strazds | AI Systems Architect">
+  <meta property="og:description" content="Sistēmu arhitektūra un MI aģentu vadība.">
+  <meta property="og:image" content="images/baners.png">
+  <meta property="og:url" content="https://dawis86.github.io/mana-majas-lapa/">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="images/logo.png">
   <link rel="stylesheet" href="css/global_style.css">
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -143,17 +157,26 @@
 </head>
 <body>
 
-  <video autoplay muted loop playsinline class="video-background">
+  /* Preloader: Active until window.load triggers to ensure high-fidelity assets are ready.
+     (Ielādes ekrāns: Aktīvs līdz window.load, lai nodrošinātu resursu gatavību.) */
+  <div id="preloader"><div class="loader-circle"></div></div>
+  
+  /* Poster: Fallback image to prevent empty layout while video initializes.
+     (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) */
+  <video autoplay muted loop playsinline class="video-background" poster="images/logo.png"> 
     <source src="images/Background.mp4" type="video/mp4">
   </video>
   <div class="video-overlay"></div>
 
   <div id="header"></div>
 
-  <main class="hero-container">
+  <main class="hero-container"> /* Main content container with vertical centering logic (Galvenais satura konteiners ar vertikālās centrēšanas loģiku) */
     <div data-aos="fade-down" data-aos-duration="1000">
       <div class="hero-pretitle" data-i18n="hero.pretitle">Sveicināti nākotnē</div>
-      <h1 class="hero-title">Dāvis <span>Strazds</span></h1>
+      <h1 class="hero-title">Dāvis Strazds</h1>
+      <div style="font-family: 'Space Grotesk'; font-size: 1.5rem; margin-top: -1rem; margin-bottom: 1.5rem;">
+        <span id="typewriter" class="typewriter-text"></span>
+      </div>
     </div>
     
     <div data-aos="fade-up" data-aos-delay="200" data-aos-duration="1000">
@@ -173,13 +196,5 @@
   <script src="js/translations.js"></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/main.js" defer></script>
-  <script>
-    // Background parallax effect (Fona paralakses efekts)
-    window.addEventListener('scroll', () => {
-      const scroll = window.pageYOffset;
-      const video = document.querySelector('.video-background');
-      if (video) video.style.transform = `scale(${1 + scroll * 0.0005})`;
-    });
-  </script>
 </body>
 </html>
