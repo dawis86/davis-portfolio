@@ -1,21 +1,25 @@
-const CACHE_NAME = 'davis-portfolio-v3';
+const CACHE_NAME = 'davis-portfolio-v5';
 const ASSETS = [
-  '/davis-portfolio/',
-  '/davis-portfolio/index.html',
-  '/davis-portfolio/css/global_style.css',
-  '/davis-portfolio/js/main.js',
-  '/davis-portfolio/js/translations.js',
-  '/davis-portfolio/images/logo.webp',
-  '/davis-portfolio/images/baners.webp',
-  'https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap'
+  './',
+  './index.html',
+  './header.html',
+  './footer.html',
+  './css/global_style.css',
+  './js/main.js',
+  './js/translations.js',
+  './images/logo.webp',
+  './images/baners.webp'
 ];
 
 // Instalācija un kešatmiņas izveide
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('PWA: Caching assets');
-      return cache.addAll(ASSETS);
+      console.log('PWA: [Install] Start caching assets');
+      // Using individual add calls to pinpoint 404 failures (Izmantojam individuālus add izsaukumus, lai atrastu 404)
+      return Promise.all(
+        ASSETS.map(url => cache.add(url).catch(err => console.error(`PWA: Failed to cache ${url}:`, err)))
+      );
     })
   );
 });
@@ -33,9 +37,33 @@ self.addEventListener('activate', (e) => {
 
 // Pieprasījumu pārtveršana
 self.addEventListener('fetch', (e) => {
+  // 1. FILTRS: Ignorējam pieprasījumus, kas nav HTTP vai HTTPS (piemēram, chrome-extension)
+  if (!e.request.url.startsWith('http')) {
+    return;
+  }
+
   e.respondWith(
     caches.match(e.request).then((res) => {
-      return res || fetch(e.request);
+      // Atgriežam kešoto versiju, ja tāda ir
+      if (res) return res;
+
+      // Ja nav kešā, veicam tīkla pieprasījumu
+      return fetch(e.request).then((response) => {
+        // Pārbaudām, vai atbilde ir derīga kešošanai
+        if (!response || response.status !== 200 || (response.type !== 'basic' && response.type !== 'cors')) {
+          return response;
+        }
+
+        // Dinamiski kešojam jaunus resursus (piemēram, Google Fonts)
+        const responseToCache = response.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(e.request, responseToCache);
+        });
+
+        return response;
+      });
+    }).catch(() => {
+      // Šeit varētu atgriezt 'offline.html', ja tīkls nav pieejams un resursa nav kešā
     })
   );
 });

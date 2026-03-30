@@ -100,11 +100,16 @@ body {
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
     padding-top: 0;
-    font-size: clamp(14px, 1vw + 10px, 24px); /* Improved fluid scale base (Uzlabota bāze) */
+    font-size: clamp(14px, 1vw + 10px, 24px);
     min-height: 100vh;
     /* Support for high-contrast/e-ink displays (Atbalsts augsta kontrasta/e-ink displejiem) */
     color-scheme: dark;
 }
+
+/* CLS Fix: Ensure the injection targets have height before JS execution 
+   (CLS labojums: Nodrošina augstumu mērķa elementiem pirms JS izpildes) */
+#header { min-height: 80px; display: block; }
+#footer { min-height: 250px; display: block; }
 
 /* Respect Reduced Motion preferences (Ievērot samazinātas kustības preferences) */
 @media (prefers-reduced-motion: reduce) {
@@ -133,7 +138,8 @@ body {
     padding: clamp(10px, 1.5vh, 20px) 0;
     transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, backdrop-filter 0.4s ease;
     border-bottom: 1px solid var(--glass-border);
-    min-height: 80px; /* CLS Fix: Reserves space before header JS loads (Rezervē vietu pirms header JS ielādes) */
+    min-height: 80px;
+    contain: size layout; /* Helps browser layout calculations (Palīdz pārlūka izkārtojuma aprēķiniem) */
 }
 
 .navbar.scrolled {
@@ -357,8 +363,8 @@ body {
     background: #050505;
     display: flex; justify-content: center; align-items: center;
     z-index: 9999;
-    transition: opacity 0.8s ease;
-    pointer-events: auto;
+    transition: opacity 0.8s ease; /* Removed non-composited visibility transition (Noņemta visibility animācija) */
+    pointer-events: all;
 }
 
 #preloader.fade-out {
