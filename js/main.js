@@ -147,7 +147,11 @@ async function initApp() {
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./service-worker.js').catch(err => {
+            // Dinamiski nosaka ceļu: GitHub Pages apakšmape vai lokālā sakne
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const swPath = isGitHubPages ? '/davis-portfolio/service-worker.js' : './service-worker.js';
+
+            navigator.serviceWorker.register(swPath).catch(err => {
                 console.warn('PWA: ServiceWorker registration failed:', err);
             });
         });
