@@ -1,29 +1,48 @@
 /**
  * File: main.js
- * Purpose: Core UI controller, Localization engine, and Dynamic component initialization.
- * (Mērķis: Galvenais UI kontrolieris, lokalizācijas dzinējs un dinamisko komponentu inicializācija.)
+ * Project: Dāvis Strazds Portfolio
+ * Purpose: Central logic engine managing i18n orchestration, asynchronous component injection, and sensory UI feedback.
+ * (Mērķis: Centrālais loģikas dzinējs, kas pārvalda i18n koordināciju, komponentu injicēšanu un sensoru UI atsauksmes.)
  * Author: Dāvis Strazds
- * Dependencies: AOS.js (Animations), Leaflet.js (Maps), VanillaTilt (3D effects)
- * Link: AOS Documentation: https://michalsnik.github.io/aos/
- * Link: Leaflet Documentation: https://leafletjs.com/
+ * Dependencies: AOS (Animations), Leaflet (Mapping), VanillaTilt (Interactive depth).
  */
 
 /* --- GLOBAL CONFIGURATION (Globālā konfigurācija) --- */
+/** 
+ * @constant {string} TESTIMONIALS_API - Serverless bridge to Google Sheets. 
+ * Used for data persistence without server overhead. (Serverless tilts uz Google Sheets datu saglabāšanai bez servera izmaksām.)
+ */
 const TESTIMONIALS_API = 'https://script.google.com/macros/s/AKfycbywFOinUTBz29y3djPJk7iCf4gFEqnTuY4_JMKiODl1GK63NX1AOurI2usKrsgjSV9SwQ/exec';
 
-let audioCtx;
+/**
+ * State Management for Language and UI (Stāvokļa vadība valodai un UI)
+ * Centralizes application state to prevent race conditions during async loads.
+ * (Centralizē aplikācijas stāvokli, lai novērstu race conditions asinhronās ielādes laikā.)
+ * @namespace AppState
+ */
+const AppState = {
+    /** @property {string} lang - Current active language locale (Pašreizējā aktīvā valodas lokāle) */
+    lang: localStorage.getItem('preferredLang') || (navigator.language.startsWith('lv') ? 'lv' : 'en'),
+    /** @property {boolean} isNavigating - Navigation lock state (Navigācijas bloķēšanas stāvoklis) */
+    isNavigating: false
+};
+
+/** @type {AudioContext} audioCtx - Global audio context for UI synthesis (Globālais audio konteksts UI sintēzei) */
+let audioCtx; 
 
 /**
  * Programmatic Audio Engine: UI feedback synthesis to avoid large asset overhead.
- * (Programmatiskais audio dzinējs: UI atsauksmju sintēze, lai izvairītos no resursu noslodzes.)
- * @param {string} type - Feedback category mapped to specific oscillator ramps.
- * (Atgriezeniskās saites kategorija, kas kartēta uz specifiskām oscilatora līknēm.)
+ * Uses Web Audio API to generate real-time feedback, reducing page load size.
+ * (Izmanto Web Audio API, lai ģenerētu reāllaika atsauksmes, samazinot lapas ielādes izmēru.)
+ * @param {'success'|'error'} type - Feedback category mapped to specific frequency ramps.
+ * @returns {void}
  */
 function playUISound(type) {
     try {
         /* Resumed on interaction to bypass browser auto-play policies.
            (Atsākts pie interakcijas, lai apietu pārlūku automātiskās atskaņošanas politikas.) */
         if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        // Global gain normalization (Globālā skaņas līmeņa normalizācija)
         if (audioCtx.state === 'suspended') audioCtx.resume();
         
         const oscillator = audioCtx.createOscillator();
@@ -54,64 +73,53 @@ function playUISound(type) {
 }
 
 /**
- * DOMContentLoaded Event Handler: Entry point for UI component orchestration.
- * (DOMContentLoaded notikuma apstrādātājs: UI komponentu koordinācijas sākuma punkts.)
+ * Entry point for UI component orchestration.
+ * (UI komponentu koordinācijas sākuma punkts.)
+ * @listens document:DOMContentLoaded
  */
 document.addEventListener('DOMContentLoaded', () => {
-    window.addEventListener('load', () => {
-        const preloader = document.getElementById('preloader');
-        if (preloader) { /* Graceful fade-out for cinematic transition (Plūstoša izgaišana kinematogrāfiskai pārejai) */
-            preloader.style.opacity = '0';
-            setTimeout(() => preloader.style.visibility = 'hidden', 800);
-        }
-    });
+    initApp();
+});
 
-    if (!localStorage.getItem('preferredLang')) {
-        localStorage.setItem('preferredLang', 'lv');
-    }
-    const currentLang = localStorage.getItem('preferredLang');
-    document.documentElement.lang = currentLang;
+/**
+ * Main application bootstrap engine. 
+ * Orchestrates parallel asset loading and visual state initialization.
+ * (Galvenais aplikācijas ielādes dzinējs. Koordinē paralēlu resursu ielādi.)
+ * @async @returns {Promise<void>}
+ */
+async function initApp() {
+    const preloader = document.getElementById('preloader');
 
-    /**
-     * Modular Component Injector: Fetches HTML fragments asynchronously.
-     * (Modulārais komponentu injicētājs: Asinhroni ielādē HTML fragmentus.)
-     * @param {string} id - DOM element ID.
-     * @param {string} file - Path to HTML fragment.
-     * @param {function} callback - Post-injection initialization.
-     */
-    const loadComponent = (id, file, callback) => {
-        const el = document.getElementById(id);
-        if (el) {
-            fetch(file)
-                .then(res => res.text())
-                .then(data => {
-                    el.innerHTML = data;
-                    translatePage(); 
-                    if (callback) callback();
-                })
-                .catch(err => console.error(`Kļūda ielādējot ${file}:`, err));
-        }
-    };
+    /* Load fragments before translation to ensure DOM nodes exist (Ielādēt fragmentus pirms tulkošanas) */
+    await Promise.all([
+        loadComponent('header', 'header.html'),
+        loadComponent('footer', 'footer.html')
+    ]);
 
-    loadComponent('header', 'header.html', () => { 
-        initHeader(); 
-        updateLangButtons(); 
-    });
-    loadComponent('footer', 'footer.html', initFooter);
-
+    // Sync language and translate (Sinhronizēt valodu un tulkot)
+    localStorage.setItem('preferredLang', AppState.lang);
+    document.documentElement.lang = AppState.lang;
     translatePage();
+    updateLangButtons();
 
-    /* Initialize UI Engine components based on context.
-       (Inicializēt UI dzinēja komponentes atkarībā no konteksta.) */
+    /* Preloader cleanup after assets are ready (Ielādes ekrāna noņemšana) */
+    if (preloader) {
+        preloader.style.opacity = '0';
+        setTimeout(() => preloader.style.visibility = 'hidden', 800);
+    }
+
+    initHeader();
+    initFooter();
     initScrollToTop();
     initTypewriter();
-    initScrollSpy();
     initLaboratory();
+    initExcelSimulation();
     initCardEffects();
     initParallax();
     initSkillBars();
     initProjectModals();
     initLeafletMap();
+    initScrollSpy();
 
     if (window.location.pathname.includes('atsauksmes.html')) {
         fetchDynamicTestimonials();
@@ -120,37 +128,63 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof AOS !== 'undefined') {
         AOS.init({ once: true, duration: 800 });
     }
-});
+}
 
 /**
- * Switches application language with a smooth transition and persists preference.
- * (Pārslēdz aplikācijas valodu ar plūstošu pāreju un saglabā izvēli.)
- * @param {string} lang - Locale identifier ('lv'|'en').
+ * Modular Component Injector: Fetches HTML fragments asynchronously.
+ * Enables DRY (Don't Repeat Yourself) principle for headers and footers.
+ * (Nodrošina DRY principu galvenēm un kājenēm.)
+ * @async 
+ * @param {string} id - Target DOM element ID for injection.
+ * @param {string} file - Path to the HTML fragment.
+ * @returns {Promise<void>}
+ */
+async function loadComponent(id, file) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    try {
+        const res = await fetch(file);
+        const data = await res.text();
+        el.innerHTML = data;
+    } catch (err) {
+        console.error(`Error loading ${file}:`, err);
+    }
+}
+
+/**
+ * Switches application language and persists preference.
+ * Uses opacity transitions to mitigate Flash of Un-translated Content (FOTC).
+ * (Izmanto caurspīdības pārejas, lai mazinātu netulkotā satura pavīdēšanu.)
+ * @param {'lv'|'en'} lang - Targeted language locale.
+ * @returns {void}
  */
 function switchLanguage(lang) {
-    const main = document.querySelector('.main-wrapper');
-    if (main) main.style.opacity = '0';
+    if (AppState.lang === lang) return;
+
+    const wrapper = document.querySelector('.main-wrapper');
+    if (wrapper) wrapper.style.opacity = '0';
     
     setTimeout(() => {
+        AppState.lang = lang;
         localStorage.setItem('preferredLang', lang);
         document.documentElement.lang = lang;
+        
         translatePage();
         updateLangButtons();
+        initTypewriter(); // Restart typewriter with new lang
         
-        // Close mobile menu if open (Aizvērt mobilo izvēlni, ja tā ir atvērta)
-        const menu = document.getElementById('nav-menu');
-        if (menu) menu.classList.remove('active');
-
-        if (main) main.style.opacity = '1';
-        
-        // Re-init dynamic components (Pārinicializēt dinamiskās komponentes)
-        initTypewriter();
-    }, 500);
+        if (wrapper) {
+            wrapper.style.opacity = '1';
+            playUISound('success');
+        }
+    }, 400);
 }
 
 /**
  * Maps translation dictionary to DOM elements based on data attributes.
- * (Kartē tulkojumu vārdnīcu uz DOM elementiem, balstoties uz datu atribūtiem.)
+ * Traverses DOM and updates nodes with data-i18n attributes.
+ * (Meklē DOM un atjaunina mezglus ar data-i18n atribūtiem.)
+ * @returns {void}
  */
 function translatePage() {
     const lang = localStorage.getItem('preferredLang') || 'lv';
@@ -159,6 +193,7 @@ function translatePage() {
     // Tulkojam teksta saturu un placeholderus
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
+        if (!key) return;
         const translation = translations[lang] ? translations[lang][key] : null;
         
         if (translation) {
@@ -166,8 +201,10 @@ function translatePage() {
                 el.placeholder = translation;
             } else {
                 const icon = el.querySelector('i');
-                if (icon) {
-                    el.innerHTML = icon.outerHTML + ' ' + translation;
+                // Preserves icons while updating text (Saglabā ikonas, atjauninot tekstu)
+                if (icon && el.childNodes.length > 0) {
+                    const textNode = Array.from(el.childNodes).find(node => node.nodeType === 3);
+                    if (textNode) textNode.textContent = ' ' + translation; else el.innerHTML = icon.outerHTML + ' ' + translation;
                 } else {
                     el.innerHTML = translation;
                 }
@@ -186,7 +223,10 @@ function translatePage() {
 
 /**
  * Integrates with Google Apps Script to fetch live client testimonials.
- * (Integrējas ar Google Apps Script, lai iegūtu dzīvās klientu atsauksmes.)
+ * Fetches JSON payload and generates semantic cards dynamically.
+ * (Iegūst JSON datus un dinamiski ģenerē semantiskas kartītes.)
+ * @async 
+ * @returns {Promise<void>}
  */
 async function fetchDynamicTestimonials() {
     const container = document.getElementById('testimonials-container');
@@ -243,8 +283,9 @@ async function fetchDynamicTestimonials() {
 
 /**
  * Handles contact form submission with UI feedback and validation.
- * (Apstrādā kontaktu formas iesniegšanu ar UI atsauksmi un validāciju.)
  * @param {Event} e - Form submission event.
+ * @async
+ * @returns {Promise<void>}
  */
 async function handleFeedbackSubmit(e) {
     e.preventDefault();
@@ -292,7 +333,8 @@ async function handleFeedbackSubmit(e) {
     try {
         const response = await fetch(TESTIMONIALS_API, {
             method: 'POST',
-            mode: 'cors', // Changed from 'no-cors' for better error handling
+            /* Full CORS handling enabled for real confirmation (Pilna CORS apstrāde reālam apstiprinājumam) */
+            mode: 'cors', 
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
         });
@@ -316,11 +358,54 @@ async function handleFeedbackSubmit(e) {
     }
 }
 
+/**
+ * Syncs language switcher UI buttons with the current active locale.
+ * (Sinhronizē valodu slēdža UI pogas ar pašreizējo aktīvo lokāli.)
+ * @returns {void}
+ */
 function updateLangButtons() {
     const lang = localStorage.getItem('preferredLang') || 'lv';
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('onclick').includes(lang));
     });
+}
+
+/**
+ * Excel Data Transformation Simulation: Visualizes the power of Java-SQL integration.
+ * (Excel datu transformācijas simulācija: Vizualizē Java-SQL integrācijas jaudu.)
+ */
+function initExcelSimulation() {
+    const btn = document.getElementById('btn-run-excel-sim');
+    const out = document.getElementById('excel-sim-output');
+    if (!btn) return;
+
+    /* Illustrates complex Range-to-Object mapping (Ilustrē sarežģītu Range-to-Object kartēšanu) */
+    btn.onclick = () => {
+        const lang = localStorage.getItem('preferredLang') || 'lv';
+        const t = translations[lang];
+        playUISound('success');
+
+        const lines = [
+            t["excel.log_open"],
+            t["excel.log_handshake"],
+            t["excel.log_map"],
+            t["excel.log_poi"],
+            t["excel.log_heap"],
+            t["excel.log_sql"],
+            t["excel.log_impact"],
+            t["excel.log_success"]
+        ];
+
+        let i = 0; out.innerHTML = "";
+        const run = () => {
+            if (i < lines.length) {
+                out.innerHTML += lines[i++] + "<br>";
+                out.scrollTop = out.scrollHeight; // Auto-scroll to latest log (Automātiska ritināšana uz jaunāko ierakstu)
+                setTimeout(run, 800);
+            }
+        };
+        run();
+    };
 }
 
 /**
@@ -346,20 +431,20 @@ function initScrollToTop() {
  * Typewriter Engine: Rotates defined professional roles.
  * (Rakstāmmašīnas dzinējs: Rotē definētās profesionālās lomas.)
  */
-let typewriterInterval;
+let typewriterTimeout;
 function initTypewriter() {
     const el = document.getElementById('typewriter');
     if (!el) return;
     
-    clearInterval(typewriterInterval);
+    clearTimeout(typewriterTimeout);
     const lang = localStorage.getItem('preferredLang') || 'lv';
-    const roles = translations[lang].hero_roles || ["AI Architect", "Systems Engineer"];
+    const roles = translations[lang] ? translations[lang].hero_roles : ["AI Architect"];
     let roleIdx = 0;
     let charIdx = 0;
     let isDeleting = false;
 
     function type() {
-        const currentRole = roles[roleIdx];
+        const currentRole = roles[roleIdx] || "";
         if (isDeleting) {
             el.textContent = currentRole.substring(0, charIdx - 1);
             charIdx--;
@@ -379,29 +464,63 @@ function initTypewriter() {
             typeSpeed = 500;
         }
 
-        typewriterInterval = setTimeout(type, typeSpeed);
+        typewriterTimeout = setTimeout(type, typeSpeed);
     }
     type();
 }
 
 /**
  * ScrollSpy Implementation: Updates active navigation links based on scroll position.
- * (ScrollSpy implementācija: Atjaunina aktīvās navigācijas saites, balstoties uz pozīciju.)
+ * Also dynamically updates the navbar background color theme based on section metadata.
+ * (Atjaunina aktīvās saites un dinamiski maina navigācijas joslas krāsu tēmu.)
  */
 function initScrollSpy() {
-    const options = { threshold: 0.5 };
+    const options = { threshold: 0.3, rootMargin: "-10px" };
+    const navbar = document.querySelector('.navbar'); // Navbar reference for theme updates (Atsauce uz navigāciju tēmu maiņai)
+
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
-                document.querySelectorAll('.navbar-menu a').forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href').includes(id));
+                
+                /* Only update links that point to specific anchors (#) on the current page to avoid stripping file-based active states.
+                   (Atjaunina tikai enkura saites (#), lai neietekmētu failu bāzēto navigāciju.) */
+                document.querySelectorAll('.navbar-menu a[href*="#"]').forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href').includes('#' + id));
                 });
+
+                /* Update Navbar Theme based on section data attribute (Atjaunina navigācijas tēmu, balstoties uz sekcijas datiem) */
+                if (navbar) {
+                    const theme = entry.target.getAttribute('data-nav-theme');
+                    // Remove all previous theme classes (Noņem visas iepriekšējās tēmu klases)
+                    navbar.classList.forEach(className => {
+                        if (className.startsWith('nav-theme-')) navbar.classList.remove(className);
+                    });
+                    // Add new theme class if present (Pievieno jauno tēmu, ja tāda ir definēta)
+                    if (theme) navbar.classList.add(`nav-theme-${theme}`);
+                }
             }
         });
     }, options);
 
     document.querySelectorAll('section[id]').forEach(section => observer.observe(section));
+}
+
+/**
+ * Calculates and updates the top reading progress bar.
+ * (Aprēķina un atjaunina augšējo lasīšanas progresa joslu.)
+ * @returns {void}
+ */
+function updateReadingProgress() {
+    const progressFill = document.getElementById('reading-progress-fill');
+    if (!progressFill) return;
+
+    /* Calculate scroll percentage (Aprēķina ritināšanas procentu) */
+    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const scrolled = (winScroll / height) * 100;
+
+    progressFill.style.width = scrolled + "%";
 }
 
 /**
@@ -423,11 +542,17 @@ function initHeader() {
     const navbar = document.querySelector('.navbar');
     window.addEventListener('scroll', () => {
         if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 50);
+        updateReadingProgress(); // Sync progress bar (Sinhronizē progresa joslu)
     });
 
+    // Correctly identify the active page even if the path is the root (Pareizi identificē aktīvo lapu arī pie saknes ceļa)
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
+    
     document.querySelectorAll('.navbar-menu a').forEach(link => {
-        if (link.getAttribute('href') === currentPath) link.classList.add('active');
+        const href = link.getAttribute('href');
+        if (href === currentPath || (currentPath === 'index.html' && href === './')) {
+            link.classList.add('active');
+        }
     });
 }
 
@@ -466,26 +591,19 @@ function initLaboratory() {
 
             const personalities = [t["coding.p_arch"], t["coding.p_sec"], t["coding.p_ux"], t["coding.p_ds"], t["coding.p_cloud"]];
             const randomP = personalities[Math.floor(Math.random() * personalities.length)];
-            const sequence = [t["coding.log_neural"], t["coding.log_agent"] + `<span style="color:var(--accent-gold)">${randomP}</span>`, t["coding.log_query"]];
-            
-            // Rādīt ielādes animāciju pirms simulācijas sākuma
-            output.innerHTML = `<div class="terminal-loader"><i class="fas fa-spinner fa-spin"></i> Initializing neural link...</div>`;
-            let i = 0;
-            
-            const runVisuals = async () => {
-                output.innerHTML = ""; // Notīrām ielādes ziņojumu pirms sekvences sākuma
-                for (const line of sequence) {
-                    output.innerHTML += line + "<br>";
-                    output.scrollTop = output.scrollHeight;
-                    await new Promise(r => setTimeout(r, 600));
-                }
+            const sequence = [t["coding.log_neural"], t["coding.log_agent"] + `<span style="color:var(--accent-gold)">${randomP}</span>`, t["coding.log_intent"] + `'${prompt.substring(0, 30)}...'`, t["coding.log_map"], t["coding.log_query"]]; /* Orchestrate visual delay for realism (Koordinē vizuālo aizturi reālismam) */
 
-                // Simulate AI response (Simulē MI atbildi)
-                const simulatedResponse = t["coding.generated_simulated_response"] || "Simulēta atbilde no MI aģenta.";
-                output.innerHTML += `<br>> <span style="color:var(--accent-gold)">AI RESPONSE (Simulated):</span> ${simulatedResponse}<br>> <span class="blink">_</span>`;
-                output.scrollTop = output.scrollHeight;
+            let i = 0; output.innerHTML = "";
+            const run = () => {
+                if (i < sequence.length) {
+                    output.innerHTML += sequence[i++] + "<br>";
+                    output.scrollTop = output.scrollHeight;
+                    setTimeout(run, 600);
+                } else {
+                    output.innerHTML += `> <span style="color:var(--accent-gold)">${t["coding.generated"]}</span> Risinājums sagatavots.<br>> <span class="blink">_</span>`;
+                }
             };
-            runVisuals();
+            run();
         });
     }
 

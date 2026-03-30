@@ -14,10 +14,24 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dāvis Strazds | AI Systems Architect - Galvenā</title>
   <meta name="description" content="Inovatīva AI aģentu vadība, sistēmu arhitektūra un nākotnes programmēšana. Dāvis Strazds - arhitekts, kurš būvē nākotni.">
+  
+  <!-- SEO: JSON-LD Structured Data (SEO: JSON-LD strukturētie dati) -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Dāvis Strazds | Systems Architect",
+      "url": "https://dawis86.github.io/davis-portfolio/",
+      "logo": "https://dawis86.github.io/davis-portfolio/images/logo.png",
+      "description": "Advanced AI systems architecture and enterprise data integration.",
+      "address": { "@type": "PostalAddress", "addressCountry": "LV" }
+    }
+  </script>
+
   <meta property="og:title" content="Dāvis Strazds | AI Systems Architect">
   <meta property="og:description" content="Sistēmu arhitektūra un MI aģentu vadība.">
   <meta property="og:image" content="images/baners.png">
-  <meta property="og:url" content="https://dawis86.github.io/mana-majas-lapa/">
+  <meta property="og:url" content="https://dawis86.github.io/davis-portfolio/">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="images/logo.png">
   <link rel="stylesheet" href="css/global_style.css">
@@ -25,20 +39,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --glass-bg: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.08);
-      --text-main: #ffffff;
-      --primary-gradient: linear-gradient(135deg, #00c6ff, #0072ff);
-    }
-
     body {
-      font-family: 'Outfit', sans-serif;
-      background: #050505;
-      margin: 0;
-      padding: 0;
-      color: var(--text-main);
-      overflow-x: hidden;
       min-height: 100vh;
     }
 
@@ -74,12 +75,14 @@
       text-align: center;
       position: relative;
       z-index: 1;
-      padding: 0 1rem;
+      padding: 0 var(--fluid-padding);
+      max-width: var(--container-max-width);
+      margin: 0 auto;
     }
 
     .hero-pretitle {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 1.2rem;
+      font-size: clamp(0.9rem, 2vw, 1.4rem);
       color: #00c6ff;
       letter-spacing: 4px;
       text-transform: uppercase;
@@ -89,9 +92,9 @@
 
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: 5rem;
+      font-size: clamp(3rem, 10vw, 8rem);
       font-weight: 900;
-      line-height: 1.1;
+      line-height: 0.95;
       margin: 0 0 1.5rem 0;
       background: linear-gradient(to right, #ffffff, #a1c4fd);
       -webkit-background-clip: text;
@@ -100,8 +103,8 @@
     }
 
     .hero-subtitle {
-      font-size: 1.5rem;
-      max-width: 600px;
+      font-size: clamp(1.1rem, 2.5vw, 1.8rem);
+      max-width: 800px;
       color: #d1d5db;
       font-weight: 300;
       margin-bottom: 3rem;
@@ -110,11 +113,11 @@
     /* Interactive Action Buttons (Interaktīvās darbības pogas) */
     .cta-group {
       display: flex;
-      gap: 1.5rem;
+      gap: clamp(1rem, 2vw, 2.5rem);
     }
 
     .btn {
-      padding: 1rem 2.5rem;
+      padding: clamp(0.8rem, 1.5vw, 1.2rem) clamp(2rem, 4vw, 3.5rem);
       border-radius: 50px;
       font-weight: 700;
       text-decoration: none;
@@ -157,12 +160,12 @@
 </head>
 <body>
 
-  /* Preloader: Active until window.load triggers to ensure high-fidelity assets are ready.
-     (Ielādes ekrāns: Aktīvs līdz window.load, lai nodrošinātu resursu gatavību.) */
+  <!-- Preloader: Active until window.load triggers to ensure high-fidelity assets are ready.
+       (Ielādes ekrāns: Aktīvs līdz window.load, lai nodrošinātu resursu gatavību.) -->
   <div id="preloader"><div class="loader-circle"></div></div>
   
-  /* Poster: Fallback image to prevent empty layout while video initializes.
-     (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) */
+  <!-- Poster: Fallback image to prevent empty layout while video initializes.
+       (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) -->
   <video autoplay muted loop playsinline class="video-background" poster="images/logo.png"> 
     <source src="images/Background.mp4" type="video/mp4">
   </video>
@@ -170,7 +173,7 @@
 
   <div id="header"></div>
 
-  <main class="hero-container"> /* Main content container with vertical centering logic (Galvenais satura konteiners ar vertikālās centrēšanas loģiku) */
+  <main id="main-content" class="hero-container main-wrapper" role="main"> <!-- Main content container with vertical centering logic (Galvenais satura konteiners ar vertikālās centrēšanas loģiku) -->
     <div data-aos="fade-down" data-aos-duration="1000">
       <div class="hero-pretitle" data-i18n="hero.pretitle">Sveicināti nākotnē</div>
       <h1 class="hero-title">Dāvis Strazds</h1>

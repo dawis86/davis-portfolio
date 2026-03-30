@@ -1,14 +1,9 @@
-<style>
-    .lang-switcher { display: flex; gap: 10px; margin-left: 20px; }
-    .lang-btn { 
-        background: none; border: 1px solid var(--glass-border); 
-        color: var(--text-muted); cursor: pointer; padding: 4px 8px; 
-        border-radius: 4px; font-size: 12px; transition: 0.3s;
-    }
-    .lang-btn.active { color: var(--accent-gold); border-color: var(--accent-gold); }
-    .lang-btn:hover { color: #fff; }
-</style>
 <header class="navbar">
+    <!-- Reading progress indicator (Lasīšanas progresa indikators) -->
+    <div class="reading-progress-container">
+        <div id="reading-progress-fill" class="reading-progress-fill"></div>
+    </div>
+
     <div class="navbar-container">
         <!-- Branding Identity (Zīmola identitāte) -->
         <a href="index.html" class="navbar-logo">
@@ -16,12 +11,9 @@
             Dāvis Strazds
         </a>
 
-        <!-- Mobile Toggle -->
-        <div class="navbar-toggle" id="mobile-menu-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
-
-        <!-- Navigācija -->
+        <!-- Navigation and Actions (Navigācija un darbības) -->
+        <!-- Scenario Z/Y/X Wrapper: Locked single line (Fiksēta viena līnija) -->
+        <div style="display: flex; align-items: center; gap: var(--navbar-gap); flex-wrap: nowrap;">
         <ul class="navbar-menu" id="nav-menu">
             <li><a href="index.html" data-i18n="nav.home"><i class="fas fa-home"></i></a></li>
             <li><a href="par_mani.html" data-i18n="nav.about"><i class="fas fa-user"></i></a></li>
@@ -32,9 +24,16 @@
             <li><a href="atsauksmes.html" data-i18n="nav.testimonials"><i class="fas fa-comment"></i></a></li>
             <li><a href="kontakti.html" data-i18n="nav.contact"><i class="fas fa-envelope"></i></a></li>
         </ul>
-        <div class="lang-switcher">
-            <button class="lang-btn" onclick="switchLanguage('lv')">LV</button>
-            <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+
+            <div class="lang-switcher">
+                <button class="lang-btn" onclick="switchLanguage('lv')">LV</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">EN</button>
+            </div>
+
+            <!-- Mobile Toggle (Izvietots blakus valodu slēdzim mazos ekrānos) -->
+            <div class="navbar-toggle" id="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
         </div>
     </div>
 </header>

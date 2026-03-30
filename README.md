@@ -12,7 +12,7 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/dāvis-strazds-b49ab625/)
 
-[**🌐 Live Demo**](https://dawis86.github.io/mana-majas-lapa/) | [**📁 Repository**](https://github.com/dawis86/mana-majas-lapa)
+[**🌐 Live Demo**](https://dawis86.github.io/davis-portfolio/) | [**📁 Repository**](https://github.com/dawis86/davis-portfolio)
 
 </div>
 

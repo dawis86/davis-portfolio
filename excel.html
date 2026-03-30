@@ -219,7 +219,7 @@
 
   <!-- Layout: Modular Content Area (Izkārtojums: Modulārā satura zona) -->
   <div class="page-content">
-    <section id="philosophy"> <!-- Development Philosophy (Izstrādes filozofija) -->
+    <section id="philosophy" data-nav-theme="excel"> <!-- Development Philosophy (Izstrādes filozofija) -->
       <h2 class="section-title" data-aos="fade-up" data-i18n="excel.approach_title">Mana Pieeja Excel</h2>
       <p class="section-subtitle" data-aos="fade-up" data-aos-delay="100" data-i18n="excel.approach_desc">
         Es redzu Excel ne tikai kā programmu aprēķiniem, bet kā elastīgu platformu. Tā var kalpot gan kā ātrs prototipēšanas rīks sarežģītām sistēmām, gan kā jaudīgs instruments ikdienas darba efektivitātei.
@@ -243,7 +243,19 @@
       </div>
     </section>
 
-    <section id="services"> <!-- Service Offerings (Pakalpojumu piedāvājums) -->
+    <!-- Interactive Excel-to-DB Simulation (Interaktīva Excel-uz-DB simulācija) -->
+    <section id="excel-simulation" class="glass-panel" style="margin-top: 4rem; border: 1px solid rgba(212, 175, 55, 0.3); background: rgba(10,10,10,0.4);" data-aos="fade-up" data-nav-theme="excel">
+      <h2 class="section-title" data-i18n="excel.sim_title">Sistēmas Prototips</h2>
+      <p style="text-align: center; color: var(--text-muted); margin-bottom: 2rem;">Vizualizē Excel-Java-SQL datu simbiozi</p>
+      <div style="text-align: center; margin-bottom: 30px;">
+        <button id="btn-run-excel-sim" class="btn-transform" data-i18n="excel.sim_btn">Sākt Transformāciju</button>
+      </div>
+      <div id="excel-sim-output" class="excel-lab-terminal terminal-window" data-i18n="excel.log_idle">
+        > SYSTEM READY. Awaiting data stream...
+      </div>
+    </section>
+
+    <section id="services" data-nav-theme="excel"> <!-- Service Offerings (Pakalpojumu piedāvājums) -->
       <h2 class="section-title" data-aos="fade-up" data-i18n="excel.services">Pakalpojumi</h2>
       <div class="services-grid">
         <div class="service-card" data-aos="fade-up">
