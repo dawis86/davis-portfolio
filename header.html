@@ -7,13 +7,14 @@
     <div class="navbar-container">
         <!-- Branding Identity (Zīmola identitāte) -->
         <a href="index.html" class="navbar-logo">
-            <img src="images/logo.png" alt="Dāvis Strazds Logo" class="logo-img" loading="lazy">
+            <img src="images/logo.png" alt="Dāvis Strazds Logo" class="logo-img" loading="lazy" decoding="async">
             Dāvis Strazds
         </a>
 
         <!-- Navigation and Actions (Navigācija un darbības) -->
         <!-- Scenario Z/Y/X Wrapper: Locked single line (Fiksēta viena līnija) -->
-        <div style="display: flex; align-items: center; gap: var(--navbar-gap); flex-wrap: nowrap;">
+        <!-- Removed inline flex-wrap: nowrap to allow CSS Scenario X to take control (Noņemts inline stils, lai CSS pārņemtu vadību) -->
+        <div style="display: flex; align-items: center; gap: 10px;">
         <ul class="navbar-menu" id="nav-menu">
             <li><a href="index.html" data-i18n="nav.home"><i class="fas fa-home"></i></a></li>
             <li><a href="par_mani.html" data-i18n="nav.about"><i class="fas fa-user"></i></a></li>

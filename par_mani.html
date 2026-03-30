@@ -270,6 +270,15 @@
       .timeline-item:nth-child(even) { flex-direction: row; }
       .timeline-content { width: calc(100% - 50px); margin-left: 50px; }
       .timeline-dot { left: 20px; }
+      
+      /* Stack diagram nodes vertically on mobile (Sakārtot shēmas elementus vertikāli mobilajās ierīcēs) */
+      .diagram-container {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+      .flow-arrow {
+        display: none; /* Hide horizontal arrows in vertical stack (Paslēpt horizontālās bultas vertikālā izkārtojumā) */
+      }
     }
   </style>
 </head>

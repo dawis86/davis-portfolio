@@ -92,7 +92,7 @@
 
     .hero-title {
       font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(3rem, 10vw, 8rem);
+      font-size: clamp(2.2rem, 8vw, 8rem); /* Reduced minimum to fit mobile screens (Samazināts minimums) */
       font-weight: 900;
       line-height: 0.95;
       margin: 0 0 1.5rem 0;
@@ -166,7 +166,7 @@
   
   <!-- Poster: Fallback image to prevent empty layout while video initializes.
        (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) -->
-  <video autoplay muted loop playsinline class="video-background" poster="images/logo.png"> 
+  <video autoplay muted loop playsinline class="video-background" poster="images/logo.png" preload="metadata"> 
     <source src="images/Background.mp4" type="video/mp4">
   </video>
   <div class="video-overlay"></div>

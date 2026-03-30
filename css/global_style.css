@@ -23,7 +23,7 @@
     /* Blue accents for technical/digital feel (Zilie akcenti tehniskai/digitālai sajūtai) */
     --container-max-width: 1600px; /* Wider for TV/Projectors (Platāks TV un projektoriem) */
     --section-padding: clamp(4rem, 8vw, 10rem);
-    --fluid-padding: clamp(20px, 5vw, 80px);
+    --fluid-padding: clamp(15px, 4vw, 80px); /* Slightly reduced for mobile breath (Samazināts mobilajiem) */
     
     /* Scenario Z Default Gaps (Z scenārija noklusējuma atstarpes) */
     --navbar-gap: clamp(1rem, 2vw, 2.5rem);
@@ -50,6 +50,7 @@ html {
     scroll-behavior: smooth;
     /* Adjusted scroll padding to account for sticky header height (Pielāgota atkāpe sastingušajai galvenei) */
     scroll-padding-top: 80px; 
+    overflow-x: hidden; /* Global safety against horizontal shift (Globālā drošība pret horizontālo nobīdi) */
 }
 
 /* === SCROLLBAR INTERFACE (Ritjoslas saskarne) === 
@@ -77,6 +78,23 @@ html {
     box-sizing: border-box;
 }
 
+/* === MEDIA SCALING (Mediju mērogošana) === 
+   Ensures all media assets respect container boundaries and do not cause overflow.
+   (Nodrošina, ka mediji ievēro konteinera robežas un neizraisa pārplūdi.) */
+img, video {
+    max-width: 100%;
+    height: auto;
+    display: block; /* Prevents unwanted whitespace at the bottom (Novērš nevēlamu tukšumu apakšā) */
+    vertical-align: middle;
+    /* Smooth entry for lazy-loaded assets (Plūstoša parādīšanās asinhroni ielādētiem resursiem) */
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Background videos must ignore constraints to cover the viewport (Fona video ignorē ierobežojumus pārklāšanai) */
+.video-background {
+    max-width: none;
+}
+
 body {
     margin: 0; padding: 0;
     font-family: 'Outfit', sans-serif;
@@ -100,9 +118,9 @@ body {
     position: sticky; /* Frozen at the top during scroll (Sastinguši augšā ritināšanas laikā) */
     top: 0;
     width: 100%;
+    max-width: 100vw;
     z-index: 1000;
     padding: clamp(10px, 1.5vh, 20px) 0;
-    /* Transition optimized for smooth background-color morphing (Pāreja optimizēta plūstošai fona krāsas maiņai) */
     transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, backdrop-filter 0.4s ease;
     border-bottom: 1px solid var(--glass-border);
 }
@@ -156,7 +174,7 @@ body {
 .navbar-logo {
     display: flex;
     align-items: center;
-    font-size: 22px;
+    font-size: clamp(16px, 4vw, 22px); /* Adaptive logo size (Adaptīvs logo izmērs) */
     color: var(--accent-gold);
     font-weight: 700;
     text-transform: uppercase;
@@ -227,6 +245,7 @@ body {
     padding-left: var(--fluid-padding) !important;
     padding-right: var(--fluid-padding) !important;
     width: 100%;
+    box-sizing: border-box; /* Ensures padding doesn't add to width (Nodrošina, ka padding nepalielina platumu) */
 }
 
 /* --- REFINED LANG SWITCHER (Uzlabots valodu slēdzis) --- */
@@ -238,6 +257,7 @@ body {
     border-radius: 50px;
     border: 1px solid var(--glass-border);
     flex-shrink: 0; /* Prevents switcher from squishing (Novērš slēdža saspiešanu) */
+    touch-action: manipulation; /* Optimizes mobile click response (Optimizē klikšķa reakciju mobilajās ierīcēs) */
 }
 .lang-btn { 
     background: none; border: none; 
@@ -245,6 +265,7 @@ body {
     padding: 6px 12px; border-radius: 50px;
     font-size: 11px; transition: all 0.3s ease;
     font-weight: 700; text-transform: uppercase;
+    touch-action: manipulation;
 }
 .lang-btn.active { background: var(--accent-gold); color: #000; }
 .lang-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.1); }
@@ -297,6 +318,7 @@ body {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(10px);
     box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);
+    touch-action: manipulation;
 }
 
 .scroll-to-top.visible { opacity: 1; visibility: visible; }
@@ -332,6 +354,7 @@ body {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     animation: goldPulse 2s infinite, shineGradient 3s linear infinite;
     font-size: clamp(0.8rem, 1.2vw, 1rem);
+    touch-action: manipulation;
 }
 
 .btn-transform:hover {
@@ -413,6 +436,7 @@ body {
     font-size: 1.5rem;
     color: #fff;
     flex-shrink: 0;
+    touch-action: manipulation;
 }
 
 /* ================= ADAPTIVE LAYOUTS (ADAPTĪVIE IZKĀRTOJUMI) ================= */
@@ -427,6 +451,11 @@ body {
         justify-content: space-between;
         flex-direction: row;
         align-items: center;
+        gap: 10px;
+    }
+
+    .navbar-logo {
+        flex: 1; /* Allows logo to take available space but shrink (Ļauj logo pielāgoties) */
     }
 
     .navbar-menu {
@@ -449,6 +478,10 @@ body {
 
     .navbar-menu li {
         width: 100%;
+    }
+
+    .lang-switcher {
+        padding: 2px; /* More compact for mobile (Kompaktāks mobilajā) */
     }
 }
 
@@ -552,7 +585,7 @@ body {
 
 .contact-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Better fit for small phones (Labāk maziem telefoniem) */
     gap: 2.5rem;
     margin-bottom: 5rem;
 }
@@ -639,7 +672,7 @@ body {
     margin: 0 auto;
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
-    padding: 5rem 4rem;
+    padding: clamp(2rem, 5vw, 5rem) clamp(1rem, 4vw, 4rem); /* Fluid form padding (Plūstošas formas atstarpes) */
     border-radius: 40px;
     backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(50px);

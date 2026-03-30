@@ -120,6 +120,7 @@ async function initApp() {
     initProjectModals();
     initLeafletMap();
     initScrollSpy();
+    optimizeMediaLoading(); // Initialize speed optimizations (Inicializēt ātruma optimizācijas)
 
     if (window.location.pathname.includes('atsauksmes.html')) {
         fetchDynamicTestimonials();
@@ -128,6 +129,29 @@ async function initApp() {
     if (typeof AOS !== 'undefined') {
         AOS.init({ once: true, duration: 800 });
     }
+}
+
+/**
+ * Media Loading Optimizer: Enhances performance by applying lazy loading and async decoding.
+ * (Mediju ielādes optimizētājs: Uzlabo veiktspēju, lietojot lazy loading un asinhronu dekodēšanu.)
+ * Why: Reduces main thread blocking and improves First Contentful Paint.
+ * (Kāpēc: Mazina galvenās pavediena bloķēšanu un uzlabo FCP rādītājus.)
+ */
+function optimizeMediaLoading() {
+    // 1. Process all images (Apstrādāt visus attēlus)
+    document.querySelectorAll('img').forEach(img => {
+        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+        if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
+    });
+
+    // 2. Optimize background videos (Optimizēt fona video)
+    // Setting preload to metadata prevents full video download on initial page load.
+    // (Iestatot preload uz metadata, novērš pilna video lejupielādi pie lapas ielādes.)
+    document.querySelectorAll('video.video-background').forEach(video => {
+        video.setAttribute('preload', 'metadata');
+        // Ensure autoplay still works after metadata is fetched (Nodrošina autoplay darbību)
+        video.addEventListener('loadedmetadata', () => video.play(), { once: true });
+    });
 }
 
 /**
@@ -230,12 +254,15 @@ function translatePage() {
  */
 async function fetchDynamicTestimonials() {
     const container = document.getElementById('testimonials-container');
-    if (!container) return;
+    if (!container || AppState.isNavigating) return;
+    
+    AppState.isNavigating = true; // Lock process (Bloķēt procesu)
     const lang = localStorage.getItem('preferredLang') || 'lv'; 
 
     try {
         const response = await fetch(TESTIMONIALS_API);
         let reviews = await response.json();
+        AppState.isNavigating = false; // Unlock (Atbloķēt)
 
         if (reviews && reviews.data) reviews = reviews.data;
         
@@ -278,6 +305,7 @@ async function fetchDynamicTestimonials() {
         }
     } catch (err) {
         console.error("Neizdevās ielādēt atsauksmes:", err);
+        AppState.isNavigating = false;
     }
 }
 
