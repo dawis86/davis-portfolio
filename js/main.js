@@ -108,19 +108,28 @@ async function initApp() {
         setTimeout(() => preloader.style.visibility = 'hidden', 800);
     }
 
-    initHeader();
-    initFooter();
-    initScrollToTop();
+    // Core UI first (Svarīgākā UI daļa vispirms)
+    initHeader(); 
     initTypewriter();
-    initLaboratory();
-    initExcelSimulation();
-    initCardEffects();
-    initParallax();
-    initSkillBars();
-    initProjectModals();
-    initLeafletMap();
-    initScrollSpy();
-    optimizeMediaLoading(); // Initialize speed optimizations (Inicializēt ātruma optimizācijas)
+    optimizeMediaLoading();
+    initViewportScenarios(); // Start the Scenario Engine (Palaist scenāriju dzinēju)
+
+    // Defer heavy non-critical scripts to free up main thread (Atlikt smagos skriptus)
+    const deferHeavy = window.requestIdleCallback || (cb => setTimeout(cb, 200));
+    deferHeavy(() => {
+        initFooter();
+        initScrollToTop();
+        initLaboratory();
+        initExcelSimulation();
+        initCardEffects();
+        initParallax();
+        initSkillBars();
+        initProjectModals();
+        initLeafletMap();
+        initScrollSpy();
+    });
+
+    registerServiceWorker(); // Enable PWA capabilities (Ieslēgt PWA iespējas)
 
     if (window.location.pathname.includes('atsauksmes.html')) {
         fetchDynamicTestimonials();
@@ -132,25 +141,85 @@ async function initApp() {
 }
 
 /**
+ * PWA Service Worker Registration: Enables offline access and caching.
+ * (PWA Service Worker reģistrācija: Iespējo bezsaistes piekļuvi un kešdarbi.)
+ */
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js').catch(err => {
+                console.warn('PWA: ServiceWorker registration failed:', err);
+            });
+        });
+    }
+}
+
+/**
+ * Viewport Scenario Engine: Detects device categories and applies data attributes.
+ * (Viewport scenāriju dzinējs: Nosaka ierīču kategorijas un piešķir datu atribūtus.)
+ */
+function initViewportScenarios() {
+    const updateScenario = () => {
+        const width = window.innerWidth;
+        let scenario = 'pc-medium'; // Default
+
+        if (width < 280) scenario = 'watch'; // Extreme small (Pulksteņi)
+        else if (width < 360) scenario = 'phone-small';
+        else if (width < 414) scenario = 'phone-medium';
+        else if (width < 600) scenario = 'phone-large';
+        else if (width < 768) scenario = 'tablet-small';
+        else if (width < 991) scenario = 'tablet-medium';
+        else if (width < 1200) scenario = 'tablet-large';
+        else if (width < 1440) scenario = 'pc-small';
+        else if (width < 1920) scenario = 'pc-medium';
+        else if (width < 2560) scenario = 'pc-large';
+        else if (width < 3840) scenario = 'projector-medium';
+        else scenario = 'tv-ultra';
+
+        document.documentElement.setAttribute('data-scenario', scenario);
+        
+        // Debug mode (Optional: remove in production)
+        // console.log(`Active Scenario: ${scenario} (${width}px)`);
+    };
+
+    window.addEventListener('resize', updateScenario);
+    updateScenario();
+}
+
+/**
  * Media Loading Optimizer: Enhances performance by applying lazy loading and async decoding.
  * (Mediju ielādes optimizētājs: Uzlabo veiktspēju, lietojot lazy loading un asinhronu dekodēšanu.)
  * Why: Reduces main thread blocking and improves First Contentful Paint.
  * (Kāpēc: Mazina galvenās pavediena bloķēšanu un uzlabo FCP rādītājus.)
  */
 function optimizeMediaLoading() {
-    // 1. Process all images (Apstrādāt visus attēlus)
+    // 1. Image Optimization (Attēlu optimizācija)
     document.querySelectorAll('img').forEach(img => {
         if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
         if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
     });
 
-    // 2. Optimize background videos (Optimizēt fona video)
-    // Setting preload to metadata prevents full video download on initial page load.
-    // (Iestatot preload uz metadata, novērš pilna video lejupielādi pie lapas ielādes.)
+    // 2. Intelligent Video Loading (Inteliģenta video ielāde)
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const isLowEnd = connection && (connection.saveData || ['slow-2g', '2g', '3g'].includes(connection.effectiveType));
+    const isLowRam = navigator.deviceMemory && navigator.deviceMemory < 4;
+
     document.querySelectorAll('video.video-background').forEach(video => {
+        // Ja ir lēns internets vai maz RAM, neielādējam video vispār - paliekam pie Poster Image
+        if (isLowEnd || isLowRam) {
+            video.remove(); 
+            return;
+        }
+
         video.setAttribute('preload', 'metadata');
-        // Ensure autoplay still works after metadata is fetched (Nodrošina autoplay darbību)
         video.addEventListener('loadedmetadata', () => video.play(), { once: true });
+
+        // 3. Resource Management: Pause when not visible (Resursu pārvaldība: Pauzēt, kad nav redzams)
+        const handleVisibility = () => {
+            if (document.hidden) video.pause();
+            else video.play().catch(() => {}); // Catch prevents error if user hasn't interacted yet
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
     });
 }
 
