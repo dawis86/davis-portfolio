@@ -94,7 +94,10 @@ async function initApp() {
     await Promise.all([
         loadComponent('header', './header.html'),
         loadComponent('footer', './footer.html')
-    ]).catch(err => console.warn("Component loading failed, proceeding..."));
+    ]).then(() => {
+        initHeader();
+        updateLangButtons();
+    }).catch(err => console.warn("Component loading failed:", err));
 
     // Sync language and translate (Sinhronizēt valodu un tulkot)
     localStorage.setItem('preferredLang', AppState.lang);
@@ -102,6 +105,7 @@ async function initApp() {
     translatePage();
 
     /* 3. Fast UI Reveal (Ātra UI parādīšana) */
+    /* Fast UI Reveal (Ātra UI parādīšana, lai uzlabotu Speed Index) */
     if (preloader) {
         preloader.classList.add('fade-out');
     }
@@ -109,6 +113,7 @@ async function initApp() {
     // Core interactions
     initHeader();
     updateLangButtons();
+    // Essential animations (Svarīgākās animācijas)
     initTypewriter();
     optimizeMediaLoading();
     initViewportScenarios(); // Start the Scenario Engine (Palaist scenāriju dzinēju)

@@ -16,12 +16,12 @@
   
   <!-- 1. Resource Prioritization (Resursu prioritāšu noteikšana) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <!-- Preload critical fonts for LCP (Iepriekš ielādēt kritiskos fontus) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap&font-display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap&font-display=swap" media="all">
   
-  <!-- Deferred Non-critical CSS (Atlikts nekritiskais CSS) -->
+  <!-- Deferred Non-critical CSS (Atlikts nekritiskais CSS, lai nebloķētu LCP) -->
   <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 
@@ -47,6 +47,9 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/webp" href="images/logo.webp">
   <link rel="stylesheet" href="css/global_style.css">
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       min-height: 100vh;
