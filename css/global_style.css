@@ -356,7 +356,13 @@ body {
     background: #050505;
     display: flex; justify-content: center; align-items: center;
     z-index: 9999;
-    transition: opacity 0.8s ease, visibility 0.8s;
+    transition: opacity 0.8s ease;
+    pointer-events: auto;
+}
+
+#preloader.fade-out {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .loader-circle {

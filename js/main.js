@@ -103,8 +103,7 @@ async function initApp() {
 
     /* 3. Fast UI Reveal (Ātra UI parādīšana) */
     if (preloader) {
-        preloader.style.opacity = '0';
-        setTimeout(() => preloader.style.visibility = 'hidden', 800);
+        preloader.classList.add('fade-out');
     }
 
     // Core interactions
