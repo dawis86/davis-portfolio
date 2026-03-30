@@ -98,6 +98,151 @@
 
         
             
+<h4 class="name" id="TESTIMONIALS_API"><span class="type-signature">(constant) </span>TESTIMONIALS_API<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    <p>Serverless bridge to Google Sheets.
+Used for data persistence without server overhead. (Serverless tilts uz Google Sheets datu saglabāšanai bez servera izmaksām.)</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">string</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="audioCtx"><span class="type-signature"></span>audioCtx<span class="type-signature"> :AudioContext</span></h4>
+
+
+
+
+<div class="description">
+    <p>audioCtx - Global audio context for UI synthesis (Globālais audio konteksts UI sintēzei)</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">AudioContext</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line31">line 31</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
 <h4 class="name" id="translations"><span class="type-signature">(constant) </span>translations<span class="type-signature"></span></h4>
 
 
@@ -165,7 +310,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
 
         
             
-<h4 class="name" id="typewriterInterval"><span class="type-signature"></span>typewriterInterval<span class="type-signature"></span></h4>
+<h4 class="name" id="typewriterTimeout"><span class="type-signature"></span>typewriterTimeout<span class="type-signature"></span></h4>
 
 
 
@@ -210,7 +355,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line338">line 338</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line464">line 464</a>
     </li></ul></dd>
     
 
@@ -238,7 +383,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
 
     
-    <h4 class="name" id="fetchDynamicTestimonials"><span class="type-signature">(async) </span>fetchDynamicTestimonials<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="fetchDynamicTestimonials"><span class="type-signature">(async) </span>fetchDynamicTestimonials<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
     
 
     
@@ -247,7 +392,8 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
 
 <div class="description">
     <p>Integrates with Google Apps Script to fetch live client testimonials.
-(Integrējas ar Google Apps Script, lai iegūtu dzīvās klientu atsauksmes.)</p>
+Fetches JSON payload and generates semantic cards dynamically.
+(Iegūst JSON datus un dinamiski ģenerē semantiskas kartītes.)</p>
 </div>
 
 
@@ -291,7 +437,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line180">line 180</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line255">line 255</a>
     </li></ul></dd>
     
 
@@ -316,6 +462,24 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;void></span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -327,7 +491,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
 
     
-    <h4 class="name" id="handleFeedbackSubmit"><span class="type-signature">(async) </span>handleFeedbackSubmit<span class="signature">(e)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="handleFeedbackSubmit"><span class="type-signature">(async) </span>handleFeedbackSubmit<span class="signature">(e)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
     
 
     
@@ -335,8 +499,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
 
 
 <div class="description">
-    <p>Handles contact form submission with UI feedback and validation.
-(Apstrādā kontaktu formas iesniegšanu ar UI atsauksmi un validāciju.)</p>
+    <p>Handles contact form submission with UI feedback and validation.</p>
 </div>
 
 
@@ -429,7 +592,115 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line238">line 238</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line320">line 320</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;void></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initApp"><span class="type-signature">(async) </span>initApp<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Main application bootstrap engine.
+Orchestrates parallel asset loading and visual state initialization.
+(Galvenais aplikācijas ielādes dzinējs. Koordinē paralēlu resursu ielādi.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line90">line 90</a>
     </li></ul></dd>
     
 
@@ -518,7 +789,96 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line427">line 427</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line593">line 593</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="initExcelSimulation"><span class="type-signature"></span>initExcelSimulation<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Excel Data Transformation Simulation: Visualizes the power of Java-SQL integration.
+(Excel datu transformācijas simulācija: Vizualizē Java-SQL integrācijas jaudu.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line407">line 407</a>
     </li></ul></dd>
     
 
@@ -607,7 +967,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line603">line 603</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line769">line 769</a>
     </li></ul></dd>
     
 
@@ -696,7 +1056,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line400">line 400</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line560">line 560</a>
     </li></ul></dd>
     
 
@@ -785,7 +1145,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line441">line 441</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line607">line 607</a>
     </li></ul></dd>
     
 
@@ -874,7 +1234,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line585">line 585</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line751">line 751</a>
     </li></ul></dd>
     
 
@@ -963,7 +1323,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line512">line 512</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line678">line 678</a>
     </li></ul></dd>
     
 
@@ -1052,7 +1412,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line546">line 546</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line712">line 712</a>
     </li></ul></dd>
     
 
@@ -1097,7 +1457,8 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
 
 <div class="description">
     <p>ScrollSpy Implementation: Updates active navigation links based on scroll position.
-(ScrollSpy implementācija: Atjaunina aktīvās navigācijas saites, balstoties uz pozīciju.)</p>
+Also dynamically updates the navbar background color theme based on section metadata.
+(Atjaunina aktīvās saites un dinamiski maina navigācijas joslas krāsu tēmu.)</p>
 </div>
 
 
@@ -1141,7 +1502,7 @@ Architecture: Key-value pair mapping to data-i18n HTML attributes.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line380">line 380</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line507">line 507</a>
     </li></ul></dd>
     
 
@@ -1232,7 +1593,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line321">line 321</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line447">line 447</a>
     </li></ul></dd>
     
 
@@ -1321,7 +1682,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line524">line 524</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line690">line 690</a>
     </li></ul></dd>
     
 
@@ -1357,7 +1718,278 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
     
 
     
-    <h4 class="name" id="playUISound"><span class="type-signature"></span>playUISound<span class="signature">(type)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="loadComponent"><span class="type-signature">(async) </span>loadComponent<span class="signature">(id, file)</span><span class="type-signature"> &rarr; {Promise.&lt;void>}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Modular Component Injector: Fetches HTML fragments asynchronously.
+Enables DRY (Don't Repeat Yourself) principle for headers and footers.
+(Nodrošina DRY principu galvenēm un kājenēm.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Target DOM element ID for injection.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Path to the HTML fragment.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line166">line 166</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise.&lt;void></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="optimizeMediaLoading"><span class="type-signature"></span>optimizeMediaLoading<span class="signature">()</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Media Loading Optimizer: Enhances performance by applying lazy loading and async decoding.
+(Mediju ielādes optimizētājs: Uzlabo veiktspēju, lietojot lazy loading un asinhronu dekodēšanu.)
+Why: Reduces main thread blocking and improves First Contentful Paint.
+(Kāpēc: Mazina galvenās pavediena bloķēšanu un uzlabo FCP rādītājus.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line140">line 140</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="playUISound"><span class="type-signature"></span>playUISound<span class="signature">(type)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1366,7 +1998,8 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
 
 <div class="description">
     <p>Programmatic Audio Engine: UI feedback synthesis to avoid large asset overhead.
-(Programmatiskais audio dzinējs: UI atsauksmju sintēze, lai izvairītos no resursu noslodzes.)</p>
+Uses Web Audio API to generate real-time feedback, reducing page load size.
+(Izmanto Web Audio API, lai ģenerētu reāllaika atsauksmes, samazinot lapas ielādes izmēru.)</p>
 </div>
 
 
@@ -1408,7 +2041,10 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">'success'</span>
+|
+
+<span class="param-type">'error'</span>
 
 
             
@@ -1418,8 +2054,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
 
             
 
-            <td class="description last"><p>Feedback category mapped to specific oscillator ramps.
-(Atgriezeniskās saites kategorija, kas kartēta uz specifiskām oscilatora līknēm.)</p></td>
+            <td class="description last"><p>Feedback category mapped to specific frequency ramps.</p></td>
         </tr>
 
     
@@ -1460,7 +2095,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line22">line 22</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line40">line 40</a>
     </li></ul></dd>
     
 
@@ -1485,6 +2120,24 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1496,7 +2149,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
     
 
     
-    <h4 class="name" id="switchLanguage"><span class="type-signature"></span>switchLanguage<span class="signature">(lang)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="switchLanguage"><span class="type-signature"></span>switchLanguage<span class="signature">(lang)</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1505,7 +2158,8 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
 
 <div class="description">
     <p>Switches application language and persists preference.
-(Pārslēdz aplikācijas valodu un saglabā izvēli.)</p>
+Uses opacity transitions to mitigate Flash of Un-translated Content (FOTC).
+(Izmanto caurspīdības pārejas, lai mazinātu netulkotā satura pavīdēšanu.)</p>
 </div>
 
 
@@ -1547,7 +2201,10 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">'lv'</span>
+|
+
+<span class="param-type">'en'</span>
 
 
             
@@ -1557,9 +2214,7 @@ Why: Enhances interactivity by dynamically tracking user focus areas.
 
             
 
-            <td class="description last"><p>Locale identifier ('lv'|'en').
-Why: Reloading is architecturally safer for dynamic script re-initialization.
-(Kāpēc: Pārlāde ir arhitektoniski drošāka dinamisko skriptu pārizsauksmei.)</p></td>
+            <td class="description last"><p>Targeted language locale.</p></td>
         </tr>
 
     
@@ -1600,7 +2255,7 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line132">line 132</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line185">line 185</a>
     </li></ul></dd>
     
 
@@ -1625,6 +2280,24 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1636,7 +2309,7 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
     
 
     
-    <h4 class="name" id="translatePage"><span class="type-signature"></span>translatePage<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="translatePage"><span class="type-signature"></span>translatePage<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
     
 
     
@@ -1645,7 +2318,8 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
 
 <div class="description">
     <p>Maps translation dictionary to DOM elements based on data attributes.
-(Kartē tulkojumu vārdnīcu uz DOM elementiem, balstoties uz datu atribūtiem.)</p>
+Traverses DOM and updates nodes with data-i18n attributes.
+(Meklē DOM un atjaunina mezglus ar data-i18n atribūtiem.)</p>
 </div>
 
 
@@ -1689,7 +2363,7 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="main.js.html">main.js</a>, <a href="main.js.html#line144">line 144</a>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line213">line 213</a>
     </li></ul></dd>
     
 
@@ -1714,6 +2388,238 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
 
 
 
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateLangButtons"><span class="type-signature"></span>updateLangButtons<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Syncs language switcher UI buttons with the current active locale.
+(Sinhronizē valodu slēdža UI pogas ar pašreizējo aktīvo lokāli.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line396">line 396</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateReadingProgress"><span class="type-signature"></span>updateReadingProgress<span class="signature">()</span><span class="type-signature"> &rarr; {void}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Calculates and updates the top reading progress bar.
+(Aprēķina un atjaunina augšējo lasīšanas progresa joslu.)</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="main.js.html">main.js</a>, <a href="main.js.html#line544">line 544</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">void</span>
+
+
+    </dd>
+</dl>
+
+    
 
 
 
@@ -1735,13 +2641,13 @@ Why: Reloading is architecturally safer for dynamic script re-initialization.
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterInterval">typewriterInterval</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AppState.html">AppState</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TESTIMONIALS_API">TESTIMONIALS_API</a></li><li><a href="global.html#audioCtx">audioCtx</a></li><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initApp">initApp</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initExcelSimulation">initExcelSimulation</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#loadComponent">loadComponent</a></li><li><a href="global.html#optimizeMediaLoading">optimizeMediaLoading</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterTimeout">typewriterTimeout</a></li><li><a href="global.html#updateLangButtons">updateLangButtons</a></li><li><a href="global.html#updateReadingProgress">updateReadingProgress</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 11:01:00 GMT+0300 (Austrumeiropas vasaras laiks)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 13:21:17 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -128,6 +128,17 @@ const translations = {
         "excel.cta_title": "Vai tavs Excel strādā tavā labā?",
         "excel.cta_desc": "Apspriedīsim, kā mēs varam optimizēt Tavu darbu vai integrēt Excel Tavā nākamajā projektā.",
         "excel.cta_btn": "Sazināties ar mani",
+        "excel.sim_title": "Sistēmas Prototips",
+        "excel.sim_btn": "Sākt Transformāciju",
+        "excel.log_idle": "> SISTĒMA GATAVĪBĀ. Gaida asinhronu datu plūsmu (Named Ranges)...",
+        "excel.log_open": "> [LOAD] Atver 'Business_Architecture.xlsx'...",
+        "excel.log_handshake": "> [SYNC] Handshaking ar Java POI dzinēju...",
+        "excel.log_map": "> [MAP] Kartē 'ClientData_Primary' uz Java POJO...",
+        "excel.log_poi": "> [VALIDATE] Validē 542 ierakstus pret SQL shēmu...",
+        "excel.log_heap": "> [OPTIMIZE] Allokē Heap atmiņu asinhronai apstrādei...",
+        "excel.log_sql": "> [COMMIT] Izpilda SQL paketi un persistē Storage...",
+        "excel.log_impact": "> [POWER] Excel tagad ir jaudīgs Enterprise terminālis!",
+        "excel.log_success": "> [SUCCESS] Transformācija pabeigta. Dati ir drošībā.",
         "testimonials.title": "KLIENTU PIEREDZE",
         "testimonials.subtitle": "Tehnoloģijas, kas pārsniedz gaidīto",
         "testimonials.card_1": "Sistēma, ko Dāvis izstrādāja, pilnībā transformēja mūsu datu plūsmu. Izcila MI integrācija.",
@@ -162,6 +173,7 @@ const translations = {
         "coding.log_intent": "> Analizē nolūku: ",
         "coding.log_map": "> Kartē domēna ierobežojumus...",
         "coding.log_query": "> Veic vaicājumu zināšanu bāzē (Java + SQL konteksts)...",
+        "coding.generated_simulated_response": "Simulēta atbilde: Sistēma ir izstrādāta, lai nodrošinātu maksimālu drošību un veiktspēju, izmantojot mikropakalpojumu arhitektūru un asinhronu datu apstrādi.",
         "coding.success": "VEIKSMĪGI:",
         "coding.generated": "ĢENERĒTS:",
         "coding.alert_copied": "Rezultāts nokopēts!",
@@ -288,6 +300,16 @@ const translations = {
         "excel.cta_title": "Is your Excel working for you?",
         "excel.cta_desc": "Let's discuss how we can optimize your work or integrate Excel into your next project.",
         "excel.cta_btn": "Contact me",
+        "excel.sim_title": "System Prototype",
+        "excel.sim_btn": "Start Transformation",
+        "excel.log_idle": "> SYSTEM READY. Awaiting asynchronous data stream (Named Ranges)...",
+        "excel.log_open": "> Opening 'Business_Architecture.xlsx' via Apache POI...",
+        "excel.log_map": "> Mapping Named Ranges to Java POJO classes...",
+        "excel.log_poi": "> POI engine validating data streams (542 records/ms)...",
+        "excel.log_heap": "> Optimizing Heap Memory for high-volume ingestion...",
+        "excel.log_sql": "> Transforming objects to SQL statements &amp; persisting...",
+        "excel.log_impact": "> Impact: Excel acts as a high-end Enterprise input terminal!",
+        "excel.log_success": "> SUCCESS: Data migrated. Java-SQL symbiosis active.",
         "testimonials.title": "CUSTOMER EXPERIENCE",
         "testimonials.subtitle": "Technology that exceeds expectations",
         "testimonials.card_1": "The system Dāvis developed completely transformed our data flow. Exceptional AI integration.",
@@ -322,6 +344,7 @@ const translations = {
         "coding.log_intent": "> Analyzing intent: ",
         "coding.log_map": "> Mapping domain constraints...",
         "coding.log_query": "> Querying knowledge base (Java + SQL Context)...",
+        "coding.generated_simulated_response": "Simulated response: The system is designed for maximum security and performance, utilizing microservices architecture and asynchronous data processing.",
         "coding.success": "SUCCESS:",
         "coding.generated": "GENERATED:",
         "coding.alert_copied": "Result copied!",
@@ -365,13 +388,13 @@ const translations = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterInterval">typewriterInterval</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AppState.html">AppState</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TESTIMONIALS_API">TESTIMONIALS_API</a></li><li><a href="global.html#audioCtx">audioCtx</a></li><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initApp">initApp</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initExcelSimulation">initExcelSimulation</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#loadComponent">loadComponent</a></li><li><a href="global.html#optimizeMediaLoading">optimizeMediaLoading</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterTimeout">typewriterTimeout</a></li><li><a href="global.html#updateLangButtons">updateLangButtons</a></li><li><a href="global.html#updateReadingProgress">updateReadingProgress</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 11:01:00 GMT+0300 (Austrumeiropas vasaras laiks)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 13:21:17 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
