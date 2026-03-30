@@ -92,24 +92,24 @@ async function initApp() {
 
     /* Load fragments before translation to ensure DOM nodes exist (Ielādēt fragmentus pirms tulkošanas) */
     await Promise.all([
-        loadComponent('header', 'header.html'),
-        loadComponent('footer', 'footer.html')
-    ]);
+        loadComponent('header', './header.html'),
+        loadComponent('footer', './footer.html')
+    ]).catch(err => console.warn("Component loading failed, proceeding..."));
 
     // Sync language and translate (Sinhronizēt valodu un tulkot)
     localStorage.setItem('preferredLang', AppState.lang);
     document.documentElement.lang = AppState.lang;
     translatePage();
-    updateLangButtons();
 
-    /* Preloader cleanup after assets are ready (Ielādes ekrāna noņemšana) */
+    /* 3. Fast UI Reveal (Ātra UI parādīšana) */
     if (preloader) {
         preloader.style.opacity = '0';
         setTimeout(() => preloader.style.visibility = 'hidden', 800);
     }
 
-    // Core UI first (Svarīgākā UI daļa vispirms)
-    initHeader(); 
+    // Core interactions
+    initHeader();
+    updateLangButtons();
     initTypewriter();
     optimizeMediaLoading();
     initViewportScenarios(); // Start the Scenario Engine (Palaist scenāriju dzinēju)
@@ -147,7 +147,7 @@ async function initApp() {
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/service-worker.js').catch(err => {
+            navigator.serviceWorker.register('./service-worker.js').catch(err => {
                 console.warn('PWA: ServiceWorker registration failed:', err);
             });
         });

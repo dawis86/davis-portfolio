@@ -1,6 +1,6 @@
 # Dāvis Strazds | AI Systems Architect Portfolio 🚀
 
-![Dāvis Strazds Banner](images/baners.png)
+![Dāvis Strazds Banner](images/baners.webp)
 
 <div align="center">
 

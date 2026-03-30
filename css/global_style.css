@@ -8,9 +8,6 @@
  * (Arhitektūra: Atomāri CSS mainīgie konsekventam zīmolam un matemātiskam telpiskajam ritmam.)
  */
 
-/* --- TYPOGRAPHY ARCHITECTURE (Tipogrāfijas arhitektūra) --- */
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700&family=Space+Grotesk:wght@400;600;700&display=swap');
-
 /* --- DESIGN TOKENS / VARIABLES (Dizaina mainīgie) --- */
 :root {
     /* Ultra-dark foundation to absorb light and emphasize focus (Ultra-tumšs pamats, lai absorbētu gaismu un uzsvērtu fokusu) */

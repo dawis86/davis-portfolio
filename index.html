@@ -14,9 +14,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dāvis Strazds | AI Systems Architect - Galvenā</title>
   
-  <!-- Preconnect to speed up font delivery (Paātrināt fontu ielādi) -->
+  <!-- 1. Resource Prioritization (Resursu prioritāšu noteikšana) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Preload critical fonts for LCP (Iepriekš ielādēt kritiskos fontus) -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" media="print" onload="this.media='all'">
+  
   <meta name="description" content="Inovatīva AI aģentu vadība, sistēmu arhitektūra un nākotnes programmēšana. Dāvis Strazds - arhitekts, kurš būvē nākotni.">
   
   <!-- SEO: JSON-LD Structured Data (SEO: JSON-LD strukturētie dati) -->
@@ -170,7 +174,7 @@
   
   <!-- Poster: Fallback image to prevent empty layout while video initializes.
        (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) -->
-  <video autoplay muted loop playsinline class="video-background" poster="images/baners.webp" preload="metadata" aria-hidden="true"> 
+  <video autoplay muted loop playsinline class="video-background" poster="images/baners.webp" preload="metadata" aria-hidden="true" fetchpriority="high"> 
     <source src="images/Background.mp4" type="video/mp4">
     <track kind="captions" src="" srclang="lv" label="Latvian" default>
   </video>
