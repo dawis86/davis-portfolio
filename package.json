@@ -1,0 +1,14 @@
+{
+  "name": "davis-portfolio",
+  "version": "1.0.0",
+  "description": "Professional Systems Architect Portfolio",
+  "main": "js/main.js",
+  "scripts": {
+    "generate-docs": "jsdoc -c jsdoc.json"
+  },
+  "author": "Dāvis Strazds",
+  "license": "MIT",
+  "devDependencies": {
+    "jsdoc": "^4.0.2"
+  }
+}
