@@ -120,35 +120,44 @@ async function initApp() {
 
     /* Load fragments before translation to ensure DOM nodes exist (Ielādēt fragmentus pirms tulkošanas) */
     await Promise.all([
-        loadComponent('header', 'header.html'),
-        loadComponent('footer', 'footer.html')
-    ]);
+        loadComponent('header', './header.html'),
+        loadComponent('footer', './footer.html')
+    ]).catch(err => console.warn("Component loading failed:", err));
 
     // Sync language and translate (Sinhronizēt valodu un tulkot)
     localStorage.setItem('preferredLang', AppState.lang);
     document.documentElement.lang = AppState.lang;
     translatePage();
-    updateLangButtons();
 
-    /* Preloader cleanup after assets are ready (Ielādes ekrāna noņemšana) */
+    /* Fast UI Reveal (Ātra UI parādīšana, lai uzlabotu Speed Index) */
     if (preloader) {
-        preloader.style.opacity = '0';
-        setTimeout(() => preloader.style.visibility = 'hidden', 800);
+        preloader.classList.add('fade-out');
     }
 
+    // Core interactions
     initHeader();
-    initFooter();
-    initScrollToTop();
+    updateLangButtons();
+    // Essential animations (Svarīgākās animācijas)
     initTypewriter();
-    initLaboratory();
-    initExcelSimulation();
-    initCardEffects();
-    initParallax();
-    initSkillBars();
-    initProjectModals();
-    initLeafletMap();
-    initScrollSpy();
-    optimizeMediaLoading(); // Initialize speed optimizations (Inicializēt ātruma optimizācijas)
+    optimizeMediaLoading();
+    initViewportScenarios(); // Start the Scenario Engine (Palaist scenāriju dzinēju)
+
+    // Defer heavy non-critical scripts to free up main thread (Atlikt smagos skriptus)
+    const deferHeavy = window.requestIdleCallback || (cb => setTimeout(cb, 200));
+    deferHeavy(() => {
+        initFooter();
+        initScrollToTop();
+        initLaboratory();
+        initExcelSimulation();
+        initCardEffects();
+        initParallax();
+        initSkillBars();
+        initProjectModals();
+        initLeafletMap();
+        initScrollSpy();
+    });
+
+    registerServiceWorker(); // Enable PWA capabilities (Ieslēgt PWA iespējas)
 
     if (window.location.pathname.includes('atsauksmes.html')) {
         fetchDynamicTestimonials();
@@ -160,25 +169,89 @@ async function initApp() {
 }
 
 /**
+ * PWA Service Worker Registration: Enables offline access and caching.
+ * (PWA Service Worker reģistrācija: Iespējo bezsaistes piekļuvi un kešdarbi.)
+ */
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            // Dinamiski nosaka ceļu: GitHub Pages apakšmape vai lokālā sakne
+            const isGitHubPages = window.location.hostname.includes('github.io');
+            const swPath = isGitHubPages ? '/davis-portfolio/service-worker.js' : './service-worker.js';
+
+            navigator.serviceWorker.register(swPath).catch(err => {
+                console.warn('PWA: ServiceWorker registration failed:', err);
+            });
+        });
+    }
+}
+
+/**
+ * Viewport Scenario Engine: Detects device categories and applies data attributes.
+ * (Viewport scenāriju dzinējs: Nosaka ierīču kategorijas un piešķir datu atribūtus.)
+ */
+function initViewportScenarios() {
+    const updateScenario = () => {
+        const width = window.innerWidth;
+        let scenario = 'pc-medium'; // Default
+
+        if (width &lt; 280) scenario = 'watch'; // Extreme small (Pulksteņi)
+        else if (width &lt; 360) scenario = 'phone-small';
+        else if (width &lt; 414) scenario = 'phone-medium';
+        else if (width &lt; 600) scenario = 'phone-large';
+        else if (width &lt; 768) scenario = 'tablet-small';
+        else if (width &lt; 991) scenario = 'tablet-medium';
+        else if (width &lt; 1200) scenario = 'tablet-large';
+        else if (width &lt; 1440) scenario = 'pc-small';
+        else if (width &lt; 1920) scenario = 'pc-medium';
+        else if (width &lt; 2560) scenario = 'pc-large';
+        else if (width &lt; 3840) scenario = 'projector-medium';
+        else scenario = 'tv-ultra';
+
+        document.documentElement.setAttribute('data-scenario', scenario);
+        
+        // Debug mode (Optional: remove in production)
+        // console.log(`Active Scenario: ${scenario} (${width}px)`);
+    };
+
+    window.addEventListener('resize', updateScenario);
+    updateScenario();
+}
+
+/**
  * Media Loading Optimizer: Enhances performance by applying lazy loading and async decoding.
  * (Mediju ielādes optimizētājs: Uzlabo veiktspēju, lietojot lazy loading un asinhronu dekodēšanu.)
  * Why: Reduces main thread blocking and improves First Contentful Paint.
  * (Kāpēc: Mazina galvenās pavediena bloķēšanu un uzlabo FCP rādītājus.)
  */
 function optimizeMediaLoading() {
-    // 1. Process all images (Apstrādāt visus attēlus)
+    // 1. Image Optimization (Attēlu optimizācija)
     document.querySelectorAll('img').forEach(img => {
         if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
         if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
     });
 
-    // 2. Optimize background videos (Optimizēt fona video)
-    // Setting preload to metadata prevents full video download on initial page load.
-    // (Iestatot preload uz metadata, novērš pilna video lejupielādi pie lapas ielādes.)
+    // 2. Intelligent Video Loading (Inteliģenta video ielāde)
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const isLowEnd = connection &amp;&amp; (connection.saveData || ['slow-2g', '2g', '3g'].includes(connection.effectiveType));
+    const isLowRam = navigator.deviceMemory &amp;&amp; navigator.deviceMemory &lt; 4;
+
     document.querySelectorAll('video.video-background').forEach(video => {
+        // Ja ir lēns internets vai maz RAM, neielādējam video vispār - paliekam pie Poster Image
+        if (isLowEnd || isLowRam) {
+            video.remove(); 
+            return;
+        }
+
         video.setAttribute('preload', 'metadata');
-        // Ensure autoplay still works after metadata is fetched (Nodrošina autoplay darbību)
         video.addEventListener('loadedmetadata', () => video.play(), { once: true });
+
+        // 3. Resource Management: Pause when not visible (Resursu pārvaldība: Pauzēt, kad nav redzams)
+        const handleVisibility = () => {
+            if (document.hidden) video.pause();
+            else video.play().catch(() => {}); // Catch prevents error if user hasn't interacted yet
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
     });
 }
 
@@ -807,13 +880,13 @@ function initFooter() {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AppState.html">AppState</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TESTIMONIALS_API">TESTIMONIALS_API</a></li><li><a href="global.html#audioCtx">audioCtx</a></li><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initApp">initApp</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initExcelSimulation">initExcelSimulation</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#loadComponent">loadComponent</a></li><li><a href="global.html#optimizeMediaLoading">optimizeMediaLoading</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterTimeout">typewriterTimeout</a></li><li><a href="global.html#updateLangButtons">updateLangButtons</a></li><li><a href="global.html#updateReadingProgress">updateReadingProgress</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="AppState.html">AppState</a></li></ul><h3>Global</h3><ul><li><a href="global.html#TESTIMONIALS_API">TESTIMONIALS_API</a></li><li><a href="global.html#audioCtx">audioCtx</a></li><li><a href="global.html#fetchDynamicTestimonials">fetchDynamicTestimonials</a></li><li><a href="global.html#handleFeedbackSubmit">handleFeedbackSubmit</a></li><li><a href="global.html#initApp">initApp</a></li><li><a href="global.html#initCardEffects">initCardEffects</a></li><li><a href="global.html#initExcelSimulation">initExcelSimulation</a></li><li><a href="global.html#initFooter">initFooter</a></li><li><a href="global.html#initHeader">initHeader</a></li><li><a href="global.html#initLaboratory">initLaboratory</a></li><li><a href="global.html#initLeafletMap">initLeafletMap</a></li><li><a href="global.html#initParallax">initParallax</a></li><li><a href="global.html#initProjectModals">initProjectModals</a></li><li><a href="global.html#initScrollSpy">initScrollSpy</a></li><li><a href="global.html#initScrollToTop">initScrollToTop</a></li><li><a href="global.html#initSkillBars">initSkillBars</a></li><li><a href="global.html#initViewportScenarios">initViewportScenarios</a></li><li><a href="global.html#loadComponent">loadComponent</a></li><li><a href="global.html#optimizeMediaLoading">optimizeMediaLoading</a></li><li><a href="global.html#playUISound">playUISound</a></li><li><a href="global.html#registerServiceWorker">registerServiceWorker</a></li><li><a href="global.html#switchLanguage">switchLanguage</a></li><li><a href="global.html#translatePage">translatePage</a></li><li><a href="global.html#translations">translations</a></li><li><a href="global.html#typewriterTimeout">typewriterTimeout</a></li><li><a href="global.html#updateLangButtons">updateLangButtons</a></li><li><a href="global.html#updateReadingProgress">updateReadingProgress</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 13:21:17 GMT+0000 (Coordinated Universal Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.5</a> on Mon Mar 30 2026 17:20:39 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
