@@ -133,6 +133,7 @@ body {
     padding: clamp(10px, 1.5vh, 20px) 0;
     transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), padding 0.4s ease, backdrop-filter 0.4s ease;
     border-bottom: 1px solid var(--glass-border);
+    min-height: 80px; /* CLS Fix: Reserves space before header JS loads (Rezervē vietu pirms header JS ielādes) */
 }
 
 .navbar.scrolled {
@@ -482,9 +483,20 @@ body {
 
 .typewriter-text {
     color: var(--accent-gold);
-    border-right: 2px solid var(--accent-gold);
-    padding-right: 5px;
-    animation: blink-caret 0.75s step-end infinite;
+    border-right: none;
+    position: relative;
+    padding-right: 8px;
+}
+
+.typewriter-text::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 2px;
+    background-color: var(--accent-gold);
+    animation: cursor-blink 0.75s infinite;
 }
 
 /* --- TERMINAL LOADER (Termināļa ielādētājs) --- */
@@ -496,7 +508,7 @@ body {
     font-style: italic;
 }
 
-@keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-gold); } }
+@keyframes cursor-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .navbar-menu li a::after {
     content: '';
     position: absolute;

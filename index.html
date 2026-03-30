@@ -17,13 +17,13 @@
   <!-- 1. Resource Prioritization (Resursu prioritāšu noteikšana) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Preload critical fonts for LCP (Iepriekš ielādēt kritiskos fontus) -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap&font-display=swap">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap&font-display=swap" media="all">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preload" as="image" href="images/baners.webp" fetchpriority="high">
   
-  <!-- Deferred Non-critical CSS (Atlikts nekritiskais CSS, lai nebloķētu LCP) -->
-  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <!-- Optimized Fonts & Styles (Optimizēti fonti un stili) -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
 
   <meta name="description" content="Inovatīva AI aģentu vadība, sistēmu arhitektūra un nākotnes programmēšana. Dāvis Strazds - arhitekts, kurš būvē nākotni.">
   
@@ -47,9 +47,6 @@
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/webp" href="images/logo.webp">
   <link rel="stylesheet" href="css/global_style.css">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Space+Grotesk:wght@400;700;900&display=swap" rel="stylesheet">
   <style>
     body {
       min-height: 100vh;
@@ -178,7 +175,7 @@
   
   <!-- Poster: Fallback image to prevent empty layout while video initializes.
        (Poster: Rezerves attēls, lai novērstu tukšu izkārtojumu video inicializācijas laikā.) -->
-  <video autoplay muted loop playsinline class="video-background" poster="images/baners.webp" preload="metadata" aria-hidden="true" fetchpriority="high"> 
+  <video autoplay muted loop playsinline class="video-background" poster="images/baners.webp" preload="none" aria-hidden="true"> 
     <source src="images/Background.mp4" type="video/mp4">
     <track kind="captions" src="" srclang="lv" label="Latvian" default>
   </video>
@@ -209,7 +206,7 @@
 
   <div id="footer"></div>
 
-  <script src="js/translations.js"></script>
+  <script src="js/translations.js" defer></script>
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script src="js/main.js" defer></script>
 </body>

@@ -94,17 +94,13 @@ async function initApp() {
     await Promise.all([
         loadComponent('header', './header.html'),
         loadComponent('footer', './footer.html')
-    ]).then(() => {
-        initHeader();
-        updateLangButtons();
-    }).catch(err => console.warn("Component loading failed:", err));
+    ]).catch(err => console.warn("Component loading failed:", err));
 
     // Sync language and translate (Sinhronizēt valodu un tulkot)
     localStorage.setItem('preferredLang', AppState.lang);
     document.documentElement.lang = AppState.lang;
     translatePage();
 
-    /* 3. Fast UI Reveal (Ātra UI parādīšana) */
     /* Fast UI Reveal (Ātra UI parādīšana, lai uzlabotu Speed Index) */
     if (preloader) {
         preloader.classList.add('fade-out');
