@@ -184,6 +184,7 @@ body {
     transition: color var(--transition-speed) ease;
     outline: none;
     white-space: nowrap; /* Prevents name wrapping (Novērš vārda pārlūšanu) */
+    flex-shrink: 1; /* Allows logo area to shrink instead of overlapping menu (Ļauj logo zonai sarauties, nevis pārklāt izvēlni) */
 }
 
 .navbar-logo:hover {
@@ -512,13 +513,19 @@ body {
 /* SCENARIO Y: Medium Screens 992px - 1300px (Tablets/Laptops) */
 @media (min-width: 992px) and (max-width: 1300px) {
     :root {
-        --navbar-gap: 1rem; /* Compact gaps to prevent overflow (Kompaktas atstarpes) */
+        --navbar-gap: clamp(0.4rem, 1vw, 0.8rem); /* Tighter gaps for mid-range screens (Ciešākas atstarpes vidējiem ekrāniem) */
+        --fluid-padding: clamp(10px, 2.5vw, 30px); /* Reduced container padding to gain space (Samazinātas malas atstarpes brīvībai) */
+    }
+    .navbar-container {
+        gap: 10px;
     }
     .navbar-menu li a {
-        font-size: 12px;
+        font-size: clamp(10px, 1.1vw, 13px); /* Fluidly scale down menu text (Plūstoši samazina izvēlnes tekstu) */
+        gap: 4px; /* Tighter icon-text gap (Ciešāka ikonas un teksta atstarpe) */
     }
     .navbar-logo {
-        font-size: 18px;
+        font-size: clamp(15px, 1.7vw, 19px); /* Fluidly scale down logo text (Plūstoši samazina logo tekstu) */
+        gap: 8px; /* Compact logo layout */
     }
 }
 
