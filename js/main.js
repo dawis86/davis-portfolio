@@ -183,8 +183,9 @@ async function loadComponent(id, file) {
  * @returns {void}
  */
 function switchLanguage(lang) {
-    if (AppState.lang === lang) return;
+    if (AppState.lang === lang || AppState.isNavigating) return;
 
+    AppState.isNavigating = true;
     const wrapper = document.querySelector('.main-wrapper');
     if (wrapper) wrapper.style.opacity = '0';
     
@@ -195,12 +196,11 @@ function switchLanguage(lang) {
         
         translatePage();
         updateLangButtons();
-        initTypewriter(); // Restart typewriter with new lang
+        initTypewriter(); 
         
-        if (wrapper) {
-            wrapper.style.opacity = '1';
-            playUISound('success');
-        }
+        if (wrapper) wrapper.style.opacity = '1';
+        playUISound('success');
+        AppState.isNavigating = false;
     }, 400);
 }
 
@@ -303,6 +303,8 @@ async function fetchDynamicTestimonials() {
         if (typeof VanillaTilt !== 'undefined') {
             VanillaTilt.init(document.querySelectorAll(".testimonial-card"), { max: 10, speed: 400 });
         }
+        initCardEffects(); // Re-initialize glow for dynamic elements (Reinicializēt spīdumu dinamiskajiem elementiem)
+        translatePage(); // Ensure dynamic content is translated (Nodrošināt dinamiskā satura tulkošanu)
     } catch (err) {
         console.error("Neizdevās ielādēt atsauksmes:", err);
         AppState.isNavigating = false;
