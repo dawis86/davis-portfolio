@@ -12,7 +12,7 @@
  * @constant {string} TESTIMONIALS_API - Serverless bridge to Google Sheets. 
  * Used for data persistence without server overhead. (Serverless tilts uz Google Sheets datu saglabāšanai bez servera izmaksām.)
  */
-const TESTIMONIALS_API = 'https://script.google.com/macros/s/AKfycbywFOinUTBz29y3djPJk7iCf4gFEqnTuY4_JMKiODl1GK63NX1AOurI2usKrsgjSV9SwQ/exec';
+const TESTIMONIALS_API = 'https://script.google.com/macros/s/AKfycbxUhI7wmExIN65hkF-MEBQPMIFARD5BBrgRA6WuHJyA5nzqkyogCMoUHjzNEVVGSfgiaw/exec';
 
 /**
  * State Management for Language and UI (Stāvokļa vadība valodai un UI)
@@ -333,12 +333,17 @@ async function fetchDynamicTestimonials() {
     const lang = localStorage.getItem('preferredLang') || 'lv'; 
 
     try {
-        const response = await fetch(TESTIMONIALS_API);
-        let reviews = await response.json();
+        // Pievienojam cache: 'no-cache', lai pārlūks vienmēr prasītu svaigus datus
+        const response = await fetch(TESTIMONIALS_API, { method: 'GET', redirect: 'follow', cache: 'no-cache' });
+        
+        if (!response.ok) throw new Error("Tīkla kļūda");
+        
+        const text = await response.text(); // Vispirms nolasām kā tekstu, lai izvairītos no SyntaxError
+        const result = JSON.parse(text);
+        let reviews = result.data || [];
+
         AppState.isNavigating = false; // Unlock (Atbloķēt)
 
-        if (reviews && reviews.data) reviews = reviews.data;
-        
         if (!Array.isArray(reviews) || reviews.length === 0) {
             container.innerHTML = `<p style="text-align:center; grid-column: 1/-1; color: var(--text-muted); padding: 3rem;" data-i18n="testimonials.empty">Pašlaik atsauksmju vēl nav. Esi pirmais!</p>`;
             translatePage();
@@ -427,7 +432,17 @@ async function handleFeedbackSubmit(e) {
         return; 
     }
 
-    const data = { name, email, message };
+    // Noteikt sūtīšanas tipu (Atsauksme vai Kontakts)
+    const isTestimonial = form.id === 'feedback-form' || window.location.pathname.includes('atsauksmes.html');
+    
+    const data = { 
+        token: 'ManPatikGoogle', // Drošības žetons
+        type: isTestimonial ? 'testimonial' : 'contact',
+        name, 
+        email, 
+        message,
+        website: "" // Honeypot pret spamu
+    };
     const originalBtnHTML = btn.innerHTML;
 
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
@@ -436,27 +451,25 @@ async function handleFeedbackSubmit(e) {
     try {
         const response = await fetch(TESTIMONIALS_API, {
             method: 'POST',
-            /* Full CORS handling enabled for real confirmation (Pilna CORS apstrāde reālam apstiprinājumam) */
-            mode: 'cors', 
-            headers: { 'Content-Type': 'application/json' },
+            mode: 'no-cors', // Izmantojam no-cors, lai apietu CORS preflight ierobežojumus
+            cache: 'no-cache',
             body: JSON.stringify(data)
         });
         
-        if (response.ok || response.type === 'opaque') { 
-            playUISound('success');
-            successMsg.classList.add('visible');
-            form.reset();
-            
-            setTimeout(() => {
-                successMsg.classList.remove('visible');
-                btn.innerHTML = originalBtnHTML;
-                btn.disabled = false;
-            }, 5000);
-        }
+        // 'no-cors' režīmā mēs vienmēr saņemam atbildi, ja nav tīkla kļūdas
+        playUISound('success');
+        successMsg.classList.add('visible');
         form.reset();
+        
+        setTimeout(() => {
+            successMsg.classList.remove('visible');
+        }, 5000);
+
     } catch (err) {
         console.error("Saziņas kļūda:", err);
+        playUISound('error');
     } finally {
+        btn.innerHTML = originalBtnHTML;
         btn.disabled = false;
     }
 }

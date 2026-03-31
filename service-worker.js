@@ -1,4 +1,4 @@
-const CACHE_NAME = 'davis-portfolio-v5';
+const CACHE_NAME = 'davis-portfolio-v6';
 const ASSETS = [
   './',
   './index.html',
@@ -37,8 +37,8 @@ self.addEventListener('activate', (e) => {
 
 // Pieprasījumu pārtveršana
 self.addEventListener('fetch', (e) => {
-  // 1. FILTRS: Ignorējam pieprasījumus, kas nav HTTP vai HTTPS (piemēram, chrome-extension)
-  if (!e.request.url.startsWith('http')) {
+  // 1. FILTRS: Ignorējam pieprasījumus uz Google Apps Script un ne-HTTP resursiem
+  if (!e.request.url.startsWith('http') || e.request.url.includes('script.google.com')) {
     return;
   }
 
